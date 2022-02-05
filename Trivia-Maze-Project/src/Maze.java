@@ -3,7 +3,7 @@
 public class Maze {
 
 	private Maze() {
-		Room MazeRooms[7][7];
+		Room[][] MazeRooms = new Room[7][7];
 	}
 	
 	public static void main(String[] args) {
