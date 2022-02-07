@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import java.util.*;
 
-public class Door {
-	
-=======
 public class Door {
 	
 	private boolean permLocked;
@@ -29,6 +25,4 @@ public class Door {
 	public boolean getPermLockStat() {
 		return permLocked;
 	}
-	
->>>>>>> main
 }
