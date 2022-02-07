@@ -2,8 +2,9 @@ import java.util.*;
 
 public class Room {
     
-	private Room(String x) {
-		
+	private Room() {
+        Door leftDoor;
+        
 	}
 	
 	public static void main(String[] args) {
