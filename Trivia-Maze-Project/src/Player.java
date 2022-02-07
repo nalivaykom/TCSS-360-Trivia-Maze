@@ -10,19 +10,19 @@ public class Player {
 		this.column = theColumn;
 	}
 	
-	public void setName(String theName) {
+	protected void setName(String theName) {
 		name = theName;
 	}
 	
-	public void setRow(int theRow) {
+	protected void setRow(int theRow) {
 		row = theRow;
 	}
 	
-	public int getRow() {
+	protected int getRow() {
 		return this.row;
 	}
 	
-	public int getColumn() {
+	protected int getColumn() {
 		return this.column;
 	}
 }
