@@ -5,24 +5,28 @@ public class Door {
 	private boolean permLocked;
 	private boolean locked;
 
-	public Door() {
+	Door() {
 		permLocked = false;
 		locked = true;
 	}
 	
-	public void setPermLocked(boolean thePermLocked) {
-		permLocked = thePermLocked;
+	/*
+	 * we will only ever lock the door permanently
+	 * once permLocked, it can never be opened.
+	 */
+	protected void setPermLocked() {
+		permLocked = true;
 	}
 	
-	public void setLocked(boolean theLocked) {
+	protected void setLocked(boolean theLocked) {
 		locked = theLocked;
 	}
 	
-	public boolean getLockStat() {
+	protected boolean getLockStat() {
 		return locked;
 	}
 	
-	public boolean getPermLockStat() {
+	protected boolean getPermLockStat() {
 		return permLocked;
 	}
 }
