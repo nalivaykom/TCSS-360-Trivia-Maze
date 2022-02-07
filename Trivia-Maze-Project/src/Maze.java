@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Maze {
 
-	protected Maze() {
+	Maze() {
 		Room[][] MazeRooms = new Room[7][7];
 		
 		for (int i = 1; i < 6; i++) {
@@ -11,10 +11,4 @@ public class Maze {
 			}
 		}
 	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-        
-	}
-
 }
