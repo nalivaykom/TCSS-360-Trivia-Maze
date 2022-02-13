@@ -66,6 +66,7 @@ public class TriviaMaze extends Application{
 		allButtonsBox.setAlignment(Pos.CENTER);
 		
 		StackPane layout = new StackPane();
+		layout.setStyle("-fx-background-color: #666699");
 		layout.setMinSize(325, 500);
 		layout.setMaxSize(325, 500);
 		
