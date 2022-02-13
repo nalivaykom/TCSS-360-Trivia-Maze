@@ -76,10 +76,6 @@ public class TriviaMaze extends Application{
 		
 		layout.getChildren().add(gridAndButtonsBox);
 		StackPane.setAlignment(gridAndButtonsBox, Pos.CENTER);
-		//layout.getChildren().add(allButtonsBox);
-		//layout.getChildren().add(grid);
-		//StackPane.setAlignment(grid, Pos.CENTER);
-		//StackPane.setAlignment(allButtonsBox, Pos.BOTTOM_CENTER);
 		
 		Scene scene = new Scene(layout, 325, 500);
 		primaryStage.setScene(scene);
