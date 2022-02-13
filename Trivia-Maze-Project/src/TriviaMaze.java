@@ -10,7 +10,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public class TriviaMaze extends Application{
 
@@ -18,11 +24,17 @@ public class TriviaMaze extends Application{
 	Button leftButton;
 	Button rightButton;
 	Button downButton;
+	
+	
 		
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
 		primaryStage.setTitle("RuneScape Trivia Maze");
+		
+		
+		//going to need to ask the player for their name here.
+		Player currentPlayer = new Player("Artur", 0, 0);
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -33,6 +45,20 @@ public class TriviaMaze extends Application{
 				rect.setFill(Color.WHITE);
 				rect.setStroke(Color.BLACK);
 				grid.add(rect, i, j);
+				
+				if (i == 0 && j == 0) { //add player to start position
+					grid.add(Player.getShape(), i, j);
+				}
+				
+				if(i == 4 && j == 4) { // add a circle with "end to indicate the goal
+					final Circle endCircle = new Circle(0,0,25);
+					final Text endText = new Text("END");
+					final  StackPane endObject = new StackPane();
+					endCircle.setFill(Color.RED);
+					endObject.getChildren().addAll(endCircle, endText);
+					endObject.setVisible(true);
+					grid.add(endObject, i, j);
+				}
 			}
 		}
 		
