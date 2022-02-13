@@ -66,8 +66,8 @@ public class TriviaMaze extends Application{
 		allButtonsBox.setAlignment(Pos.CENTER);
 		
 		StackPane layout = new StackPane();
-		layout.setMinSize(325, 450);
-		layout.setMaxSize(325, 450);
+		layout.setMinSize(325, 500);
+		layout.setMaxSize(325, 500);
 		
 		VBox gridAndButtonsBox = new VBox(25);
 		gridAndButtonsBox.getChildren().addAll(grid, allButtonsBox);
@@ -81,7 +81,7 @@ public class TriviaMaze extends Application{
 		//StackPane.setAlignment(grid, Pos.CENTER);
 		//StackPane.setAlignment(allButtonsBox, Pos.BOTTOM_CENTER);
 		
-		Scene scene = new Scene(layout, 325, 450);
+		Scene scene = new Scene(layout, 325, 500);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
