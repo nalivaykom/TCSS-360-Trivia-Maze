@@ -4,9 +4,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class TriviaMaze extends Application{
@@ -20,6 +23,18 @@ public class TriviaMaze extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 		primaryStage.setTitle("RuneScape Trivia Maze");
+		
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setMinSize(300, 300);
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				Rectangle rect = new Rectangle(60, 60, 60, 60);
+				rect.setFill(Color.WHITE);
+				rect.setStroke(Color.BLACK);
+				grid.add(rect, i, j);
+			}
+		}
 		
 		upButton = new Button();
 		upButton.setText("Up");
@@ -42,6 +57,7 @@ public class TriviaMaze extends Application{
 		downButton.setMaxSize(50, 25);
 		
 		VBox upDownButtonsBox = new VBox(25);
+		upDownButtonsBox.setAlignment(Pos.CENTER);
 		HBox allButtonsBox = new HBox();
 		upDownButtonsBox.getChildren().addAll(upButton, downButton);
 		allButtonsBox.getChildren().addAll(leftButton, upDownButtonsBox, rightButton);
@@ -50,15 +66,22 @@ public class TriviaMaze extends Application{
 		allButtonsBox.setAlignment(Pos.CENTER);
 		
 		StackPane layout = new StackPane();
-		layout.setMinSize(300, 500);
-		layout.setMaxSize(300, 500);
-		layout.getChildren().add(allButtonsBox);
-//		layout.getChildren().add(upButton);
-//		layout.getChildren().add(leftButton);
-//		layout.getChildren().add(rightButton);
-//		layout.getChildren().add(downButton);
+		layout.setMinSize(325, 450);
+		layout.setMaxSize(325, 450);
 		
-		Scene scene = new Scene(layout, 300, 500);
+		VBox gridAndButtonsBox = new VBox(25);
+		gridAndButtonsBox.getChildren().addAll(grid, allButtonsBox);
+		gridAndButtonsBox.setAlignment(Pos.CENTER);
+		
+		
+		layout.getChildren().add(gridAndButtonsBox);
+		StackPane.setAlignment(gridAndButtonsBox, Pos.CENTER);
+		//layout.getChildren().add(allButtonsBox);
+		//layout.getChildren().add(grid);
+		//StackPane.setAlignment(grid, Pos.CENTER);
+		//StackPane.setAlignment(allButtonsBox, Pos.BOTTOM_CENTER);
+		
+		Scene scene = new Scene(layout, 325, 450);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
