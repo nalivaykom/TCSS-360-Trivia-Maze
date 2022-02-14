@@ -11,10 +11,12 @@ public class Player {
 	
 	final Circle circle = new Circle(0,0,10);
 	final Text text = new Text ();
-	final static StackPane myPlayerShape = new StackPane();
+	static StackPane myPlayerShape;
 	
 	
 	Player(String theName, int theRow, int theColumn) {
+		myPlayerShape = new StackPane();
+		
 		name = theName;
 		this.row = theRow;
 		this.column = theColumn;
@@ -33,20 +35,27 @@ public class Player {
 		row = theRow;
 	}
 	
-	protected int getRow() {
-		return this.column;
+	protected void setColumn(int theColumn) {
+		column = theColumn;
 	}
-	
-	protected int getColumn() {
+	protected int getRow() {
 		return this.row;
 	}
 	
-	protected static StackPane getShape() {
+	protected int getColumn() {
+		return this.column;
+	}
+	
+	protected StackPane getShape() {
 		return myPlayerShape;
 		
 	}
 	
 	protected String getName() {
 		return name;
+	}
+	
+	public String toString() {
+		return "Player";
 	}
 }
