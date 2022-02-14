@@ -1,7 +1,9 @@
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -14,9 +16,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
+//import sun.security.provider.DSAKeyPairGenerator.Current;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 public class TriviaMaze extends Application{
 
@@ -66,21 +69,49 @@ public class TriviaMaze extends Application{
 		upButton.setText("Up");
 		upButton.setMinSize(50, 25);
 		upButton.setMaxSize(50, 25);
+		//add event listener for click and modify player
 		
 		leftButton = new Button();
 		leftButton.setText("Left");
 		leftButton.setMinSize(50, 25);
 		leftButton.setMaxSize(50, 25);
+		leftButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	//handle the left click
+		    }
+		});
+		//add event listener for click and modify player
+
 		
 		rightButton = new Button();
 		rightButton.setText("Right");
 		rightButton.setMinSize(50, 25);
 		rightButton.setMaxSize(50, 25);
+		rightButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	
+		    	
+		    	//removePlayer(currentPlayer.getRow(),currentPlayer.getColumn(),grid, currentPlayer);
+		    	
+		    	//(Player.getShape(), currentPlayer.getRow(), currentPlayer.getColumn());
+		    	
+		    	removeFromPane(currentPlayer.hashCode(), grid); 
+
+		    	currentPlayer.setRow(currentPlayer.getRow() + 1);
+		    	System.out.println("current row is : " + currentPlayer.getRow());
+		    	//handle the left click
+		    }
+		});
+		//add event listener for click and modify player
+
 		
 		downButton = new Button();
 		downButton.setText("Down");
 		downButton.setMinSize(50, 25);
 		downButton.setMaxSize(50, 25);
+		//size is off, does not show full "down" only "do.."
+		//add event listener for click and modify player
+
 		
 		VBox upDownButtonsBox = new VBox(25);
 		upDownButtonsBox.setAlignment(Pos.CENTER);
@@ -108,6 +139,35 @@ public class TriviaMaze extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	
+	/*
+	 * this removes the rectangles, cant figure out how to remove the player
+	public void removePlayer(final int row,final int column,GridPane grid, Player currentPlayer) {
+
+		ObservableList<Node> childrens = grid.getChildren();
+		for(Node node : childrens) {
+		    if(GridPane.getRowIndex(node) == currentPlayer.getRow() && GridPane.getColumnIndex(node) == currentPlayer.getColumn()) {
+		    	
+		    	grid.getChildren().remove(node);
+		    	
+		        break;
+		    }
+		}
+		
+}
+*/
+	
+	void removeFromPane(int hash, GridPane grid) {
+	    for (final Node node : grid.getChildren()) {
+	        if (node != null 
+	              && (node).getId() != null
+	              && node.hashCode() == (hash)) {
+	            grid.getChildren().remove(node);
+	        }
+	    }
+	}
+	
 	
 	public static void main(String[] args) {
 		launch(args);

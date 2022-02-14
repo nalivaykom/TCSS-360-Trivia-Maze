@@ -34,15 +34,19 @@ public class Player {
 	}
 	
 	protected int getRow() {
-		return this.row;
+		return this.column;
 	}
 	
 	protected int getColumn() {
-		return this.column;
+		return this.row;
 	}
 	
 	protected static StackPane getShape() {
 		return myPlayerShape;
 		
+	}
+	
+	protected String getName() {
+		return name;
 	}
 }
