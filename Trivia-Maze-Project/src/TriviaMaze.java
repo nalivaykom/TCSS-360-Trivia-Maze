@@ -25,6 +25,11 @@ import java.util.*;
 
 public class TriviaMaze extends Application{
 
+	Button aButton;
+	Button bButton;
+	Button cButton;
+	Button dButton;
+	Button enterButton;
 	Button upButton;
 	Button leftButton;
 	Button rightButton;
@@ -37,6 +42,50 @@ public class TriviaMaze extends Application{
 		
 		primaryStage.setTitle("RuneScape Trivia Maze");
 		
+		TextArea textArea = new TextArea();
+		textArea.setMinSize(300, 250);
+		textArea.setMaxSize(300, 250);
+		textArea.setEditable(false);
+		
+		TextField textField = new TextField();
+		textField.setMinSize(300, 30);
+		textField.setMaxSize(300, 30);
+		
+		aButton = new Button();
+		aButton.setText("A");
+		aButton.setMinSize(50, 25);
+		aButton.setMaxSize(50, 25);
+		
+		bButton = new Button();
+		bButton.setText("B");
+		bButton.setMinSize(50, 25);
+		bButton.setMaxSize(50, 25);
+		
+		cButton = new Button();
+		cButton.setText("C");
+		cButton.setMinSize(50, 25);
+		cButton.setMaxSize(50, 25);
+		
+		dButton = new Button();
+		dButton.setText("D");
+		dButton.setMinSize(50, 25);
+		dButton.setMaxSize(50, 25);
+		
+		enterButton = new Button();
+		enterButton.setText("Enter");
+		enterButton.setMinSize(100, 25);
+		enterButton.setMaxSize(100, 25);
+		
+		VBox fieldAndEnterBox = new VBox(10);
+		fieldAndEnterBox.setAlignment(Pos.CENTER);
+		fieldAndEnterBox.getChildren().addAll(textField, enterButton);
+		
+		HBox abcdButtons = new HBox(33);
+		abcdButtons.getChildren().addAll(aButton, bButton, cButton, dButton);
+		
+		VBox leftVBox = new VBox(40);
+		leftVBox.setAlignment(Pos.CENTER);
+		leftVBox.getChildren().addAll(textArea, fieldAndEnterBox, abcdButtons);
 		
 		//going to need to ask the player for their name here.
 		Player currentPlayer = new Player("Artur", 0, 0);
@@ -145,20 +194,24 @@ public class TriviaMaze extends Application{
 		allButtonsBox.setMaxSize(75, 150);
 		allButtonsBox.setAlignment(Pos.CENTER);
 		
-		StackPane layout = new StackPane();
-		layout.setStyle("-fx-background-color: #666699");
-		layout.setMinSize(325, 500);
-		layout.setMaxSize(325, 500);
+		StackPane Pane = new StackPane();
+		Pane.setStyle("-fx-background-color: #666699");
+		Pane.setMinSize(700, 500);
+		Pane.setMaxSize(700, 500);
 		
-		VBox gridAndButtonsBox = new VBox(25);
+		VBox gridAndButtonsBox = new VBox();
 		gridAndButtonsBox.getChildren().addAll(grid, allButtonsBox);
 		gridAndButtonsBox.setAlignment(Pos.CENTER);
 		
+		HBox leftAndRightVBoxes = new HBox(25);
+		leftAndRightVBoxes.setAlignment(Pos.CENTER);
+		leftAndRightVBoxes.getChildren().addAll(leftVBox, gridAndButtonsBox);
 		
-		layout.getChildren().add(gridAndButtonsBox);
-		StackPane.setAlignment(gridAndButtonsBox, Pos.CENTER);
 		
-		Scene scene = new Scene(layout, 325, 500);
+		Pane.getChildren().add(leftAndRightVBoxes);
+		StackPane.setAlignment(leftAndRightVBoxes, Pos.CENTER);
+		
+		Scene scene = new Scene(Pane, 700, 500);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

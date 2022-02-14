@@ -21,7 +21,7 @@ public class Player {
 		this.row = theRow;
 		this.column = theColumn;
 		
-		circle.setFill(Color.BLUE);
+		circle.setFill(Color.TAN);
 		text.setText(theName);
 		myPlayerShape.getChildren().addAll(circle, text);
 		myPlayerShape.setVisible(true);
@@ -53,9 +53,5 @@ public class Player {
 	
 	protected String getName() {
 		return name;
-	}
-	
-	public String toString() {
-		return "Player";
 	}
 }
