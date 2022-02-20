@@ -2,13 +2,29 @@ import java.util.*;
 
 public class Room {
     
-	private Room(String x) {
-		
+	Door topDoor;
+	Door leftDoor;
+    Door rightDoor;
+    Door bottomDoor;
+	
+	protected Room() {
+        topDoor = new Door();;
+		leftDoor = new Door();
+        rightDoor = new Door();
+        bottomDoor = new Door();
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	protected void setTopDoorPermLocked() {
+		topDoor.setPermLocked();
+	}   
+	protected void setLeftDoorPermLocked() {
+		leftDoor.setPermLocked();
+	}
+	protected void setRightDoorPermLocked() {
+		rightDoor.setPermLocked();
+	}
+	protected void setBottomDoorPermLocked() {
+		bottomDoor.setPermLocked();
 	}
 
 }

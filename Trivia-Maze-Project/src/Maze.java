@@ -1,14 +1,20 @@
-
+import java.util.*;
 
 public class Maze {
 
-	private Maze() {
-		Room[][] MazeRooms = new Room[7][7];
+	private Room[][] MazeRooms;
+	
+	Maze() {
+		MazeRooms = new Room[5][5];
+		
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				MazeRooms[i][j] = new Room();
+			}
+		}
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-        
+	 Room getRoom(int row, int column) {
+		return MazeRooms[row][column];
 	}
-
 }
