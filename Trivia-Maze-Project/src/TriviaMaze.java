@@ -300,7 +300,6 @@ public class TriviaMaze extends Application{
 	    try {
 			enterButton.wait();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    
