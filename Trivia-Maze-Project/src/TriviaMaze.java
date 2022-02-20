@@ -25,6 +25,7 @@ import java.util.*;
 
 public class TriviaMaze extends Application{
 
+	Maze maze;
 	Button aButton;
 	Button bButton;
 	Button cButton;
@@ -34,20 +35,28 @@ public class TriviaMaze extends Application{
 	Button leftButton;
 	Button rightButton;
 	Button downButton;
-		
+	TextArea textArea;
+	TextField textField;
+	String userInput;
+	String multipleChoiceSelection;
+	Room currentRoom;
+	Room adjacentRoom;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		Maze maze = new Maze();
+		maze = new Maze();
 		
 		primaryStage.setTitle("RuneScape Trivia Maze");
 		
-		TextArea textArea = new TextArea();
+		textArea = new TextArea();
 		textArea.setMinSize(300, 250);
 		textArea.setMaxSize(300, 250);
 		textArea.setEditable(false);
+		textArea.setWrapText(true);
+		textArea.setText("Welcome to the RuneScape Trivia Maze!");
 		
-		TextField textField = new TextField();
+		textField = new TextField();
 		textField.setMinSize(300, 30);
 		textField.setMaxSize(300, 30);
 		
@@ -55,26 +64,71 @@ public class TriviaMaze extends Application{
 		aButton.setText("A");
 		aButton.setMinSize(50, 25);
 		aButton.setMaxSize(50, 25);
+		aButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				multipleChoiceSelection = "A";
+				
+			}
+			
+		});
 		
 		bButton = new Button();
 		bButton.setText("B");
 		bButton.setMinSize(50, 25);
 		bButton.setMaxSize(50, 25);
+		bButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				multipleChoiceSelection = "B";
+				
+			}
+			
+		});
 		
 		cButton = new Button();
 		cButton.setText("C");
 		cButton.setMinSize(50, 25);
 		cButton.setMaxSize(50, 25);
+		cButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				multipleChoiceSelection = "C";
+				
+			}
+			
+		});
 		
 		dButton = new Button();
 		dButton.setText("D");
 		dButton.setMinSize(50, 25);
 		dButton.setMaxSize(50, 25);
+		dButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				multipleChoiceSelection = "D";
+				
+			}
+			
+		});
 		
+		userInput = new String();
 		enterButton = new Button();
 		enterButton.setText("Enter");
 		enterButton.setMinSize(100, 25);
 		enterButton.setMaxSize(100, 25);
+		enterButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		    @Override public void handle(ActionEvent e) {
+		    	userInput = textField.getText();
+		    	
+		    }
+		    
+		});
 		
 		VBox fieldAndEnterBox = new VBox(10);
 		fieldAndEnterBox.setAlignment(Pos.CENTER);
@@ -88,7 +142,7 @@ public class TriviaMaze extends Application{
 		leftVBox.getChildren().addAll(textArea, fieldAndEnterBox, abcdButtons);
 		
 		//going to need to ask the player for their name here.
-		Player currentPlayer = new Player("Artur", 0, 0);
+		Player currentPlayer = new Player("Player", 0, 0);
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -126,7 +180,8 @@ public class TriviaMaze extends Application{
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 			    	
 		    	} else {
-		    		System.out.println("Cannot go up");
+		    		//System.out.println("Cannot go up");
+		    		textArea.appendText("\nCannot go up");
 		    	}
 		    }
 		});
@@ -143,7 +198,8 @@ public class TriviaMaze extends Application{
 			    	currentPlayer.setColumn(currentPlayer.getColumn() - 1);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 		    	} else {
-		    		System.out.println("Cannot go left");
+		    		//System.out.println("Cannot go left");
+		    		textArea.appendText("\nCannot go left");
 		    	}
 		    }
 		});
@@ -162,7 +218,8 @@ public class TriviaMaze extends Application{
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 			    	
 		    	} else {
-		    		System.out.println("Cannot go right");
+		    		//System.out.println("Cannot go right");
+		    		textArea.appendText("\nCannot go right");
 		    	}
 		    }
 		});
@@ -179,7 +236,8 @@ public class TriviaMaze extends Application{
 			    	currentPlayer.setRow(currentPlayer.getRow() + 1);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 		    	} else {
-		    		System.out.println("Cannot go down");
+		    		//System.out.println("Cannot go down");
+		    		textArea.appendText("\nCannot go down");
 		    	}
 
 		    }
@@ -195,7 +253,7 @@ public class TriviaMaze extends Application{
 		allButtonsBox.setAlignment(Pos.CENTER);
 		
 		StackPane Pane = new StackPane();
-		Pane.setStyle("-fx-background-color: #666699");
+		Pane.setStyle("-fx-background-color: dimgrey");
 		Pane.setMinSize(700, 500);
 		Pane.setMaxSize(700, 500);
 		
@@ -225,7 +283,6 @@ public class TriviaMaze extends Application{
 	        }          
 	    }  
 	}
-	
 	
 	public static void main(String[] args) {
 		launch(args);

@@ -5,12 +5,16 @@ public class Maze {
 	private Room[][] MazeRooms;
 	
 	Maze() {
-		MazeRooms = new Room[7][7];
+		MazeRooms = new Room[5][5];
 		
-		for (int i = 1; i < 6; i++) {
-			for (int j = 1; j < 6; j++) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
 				MazeRooms[i][j] = new Room();
 			}
 		}
+	}
+	
+	 Room getRoom(int row, int column) {
+		return MazeRooms[row][column];
 	}
 }
