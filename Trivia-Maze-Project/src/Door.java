@@ -10,7 +10,7 @@ public class Door {
 	
 	private boolean permLocked;
 	private boolean locked;
-	private Rectangle rectangle = new Rectangle(30,60);
+	private Rectangle rectangle = new Rectangle(15,30);
 
 	Door() {
 		permLocked = false;
