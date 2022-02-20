@@ -10,10 +10,13 @@ public class Door {
 	
 	private boolean permLocked;
 	private boolean locked;
+	private Rectangle rectangle = new Rectangle(30,60);
 
 	Door() {
 		permLocked = false;
 		locked = true;
+		rectangle = setToDoor();
+		
 	}
 	
 	/*
@@ -22,6 +25,7 @@ public class Door {
 	 */
 	protected void setPermLocked() {
 		permLocked = true;
+		this.rectangle = setToLock();
 	}
 	
 	protected void setLocked(boolean theLocked) {
@@ -36,12 +40,20 @@ public class Door {
 		return permLocked;
 	}
 	
+	protected Shape getShape() {
+		return this.rectangle;
+	}
 	
-	public Shape setToDoor() {
-		Rectangle rectangle = null;
+	private Rectangle setToDoor() {
 		Image img = new Image("door.jpg");
-		rectangle.setFill(new ImagePattern(img));
-		return rectangle;
+		this.rectangle.setFill(new ImagePattern(img));
+		return this.rectangle;
+	}
+	
+	private Rectangle setToLock() {
+		Image img = new Image("Lock.jpg");
+		this.rectangle.setFill(new ImagePattern(img));
+		return this.rectangle;
 	}
 	
 }
