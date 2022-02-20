@@ -4,6 +4,7 @@ import javafx.css.CssMetaData;
 import javafx.css.Styleable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -143,8 +144,10 @@ public class TriviaMaze extends Application{
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
+	    grid.setHgap(4);
+		//grid.setVgap(3);
 		//grid.setMinSize(360, 420);
-		grid.setMinSize(1900, 1000);
+		grid.setMinSize(360, 420);
 
 		
 		for (int i = 0; i < 9; i++) {
@@ -154,10 +157,11 @@ public class TriviaMaze extends Application{
 					rect.setFill(Color.WHITE);
 					rect.setStroke(Color.BLACK);
 					grid.add(rect, i, j);
-				} else if (j % 2 == 1) {
-					maze.getRoom(i, j - 1);
-				} else if (i % 2 == 1) {
-					maze.getRoom(i - 1, j);
+				} else if ((j % 2 == 1) && (i % 2 == 0)) {
+					grid.add(maze.getRoom(i, j - 1).getBottomDoor().getShape(), i, j);
+					GridPane.setHalignment(maze.getRoom(i, j - 1).getBottomDoor().getShape(), HPos.CENTER);
+				} else if ((i % 2 == 1) && (j % 2 == 0)) {
+					grid.add(maze.getRoom(i - 1, j).getRightDoor().getShape(), i, j);
 				}
 				
 			}
@@ -171,7 +175,7 @@ public class TriviaMaze extends Application{
 		endCircle.setFill(Color.RED);
 		endObject.getChildren().addAll(endCircle, endText);
 		endObject.setVisible(true);
-		grid.add(endObject, 4, 4);
+		grid.add(endObject, 8, 8);
 		
 		upButton = new Button();
 		upButton.setText("Up");
@@ -180,15 +184,17 @@ public class TriviaMaze extends Application{
 		upButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
+		    	
 		    	if (currentPlayer.getRow() > 0) {
-			    	removePlayer(grid, currentPlayer); 
-			    	currentPlayer.setRow(currentPlayer.getRow() - 1);
-			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-			    	
+		    		if (askQuestion()) {
+				    	removePlayer(grid, currentPlayer); 
+				    	currentPlayer.setRow(currentPlayer.getRow() - 2);
+				    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+		    		}
 		    	} else {
-		    		//System.out.println("Cannot go up");
 		    		textArea.appendText("\nCannot go up");
 		    	}
+		    	
 		    }
 		});
 		
@@ -201,10 +207,9 @@ public class TriviaMaze extends Application{
 		    @Override public void handle(ActionEvent e) {
 		    	if (currentPlayer.getColumn() > 0) {
 			    	removePlayer(grid, currentPlayer); 
-			    	currentPlayer.setColumn(currentPlayer.getColumn() - 1);
+			    	currentPlayer.setColumn(currentPlayer.getColumn() - 2);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 		    	} else {
-		    		//System.out.println("Cannot go left");
 		    		textArea.appendText("\nCannot go left");
 		    	}
 		    }
@@ -218,13 +223,11 @@ public class TriviaMaze extends Application{
 			
 		    @Override public void handle(ActionEvent e) {
 
-		    	if (currentPlayer.getColumn() < 4) {
+		    	if (currentPlayer.getColumn() < 8) {
 			    	removePlayer(grid, currentPlayer); 
-			    	currentPlayer.setColumn(currentPlayer.getColumn() + 1);
+			    	currentPlayer.setColumn(currentPlayer.getColumn() + 2);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-			    	
 		    	} else {
-		    		//System.out.println("Cannot go right");
 		    		textArea.appendText("\nCannot go right");
 		    	}
 		    }
@@ -237,12 +240,11 @@ public class TriviaMaze extends Application{
 		downButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	if (currentPlayer.getRow() < 4) {
+		    	if (currentPlayer.getRow() < 8) {
 			    	removePlayer(grid, currentPlayer); 
-			    	currentPlayer.setRow(currentPlayer.getRow() + 1);
+			    	currentPlayer.setRow(currentPlayer.getRow() + 2);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 		    	} else {
-		    		//System.out.println("Cannot go down");
 		    		textArea.appendText("\nCannot go down");
 		    	}
 
@@ -259,11 +261,9 @@ public class TriviaMaze extends Application{
 		allButtonsBox.setAlignment(Pos.CENTER);
 		
 		StackPane Pane = new StackPane();
-		Pane.setStyle("-fx-background-color: dimgrey");
-		//Pane.setMinSize(700, 500);
-		//Pane.setMaxSize(700, 500);
-		Pane.setMinSize(1900, 1000);
-		Pane.setMaxSize(1900, 1000);
+		Pane.setStyle("-fx-background-color: DDDDDD");
+		Pane.setMinSize(800, 650);
+		Pane.setMaxSize(800, 650);
 		
 		VBox gridAndButtonsBox = new VBox();
 		gridAndButtonsBox.getChildren().addAll(grid, allButtonsBox);
@@ -277,8 +277,7 @@ public class TriviaMaze extends Application{
 		Pane.getChildren().add(leftAndRightVBoxes);
 		StackPane.setAlignment(leftAndRightVBoxes, Pos.CENTER);
 		
-		//Scene scene = new Scene(Pane, 700, 500);
-		Scene scene = new Scene(Pane, 1900, 1000);
+		Scene scene = new Scene(Pane, 800, 650);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -293,9 +292,27 @@ public class TriviaMaze extends Application{
 	    }  
 	}
 	
+	boolean askQuestion() {
+		boolean gotItRight = false;
+		Question_Answer QA = new Question_Answer();
+		textArea.clear();
+		textArea.appendText(QA.getQuestion());
+	    try {
+			enterButton.wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    	
+	    
+	 
+		textArea.appendText("\nWaited for enter button");
+		
+		return gotItRight;
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
-
-
 }
