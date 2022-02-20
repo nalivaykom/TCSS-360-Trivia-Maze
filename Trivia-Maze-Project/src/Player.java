@@ -47,6 +47,7 @@ public class Player {
 	}
 	
 	protected StackPane getShape() {
+		
 		return myPlayerShape;
 		
 	}
