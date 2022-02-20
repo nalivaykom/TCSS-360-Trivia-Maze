@@ -65,13 +65,10 @@ public class TriviaMaze extends Application{
 		aButton.setMinSize(50, 25);
 		aButton.setMaxSize(50, 25);
 		aButton.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "A";
-				
-			}
-			
+				multipleChoiceSelection = "A";	
+			}	
 		});
 		
 		bButton = new Button();
@@ -146,14 +143,23 @@ public class TriviaMaze extends Application{
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		grid.setMinSize(300, 300);
+		//grid.setMinSize(360, 420);
+		grid.setMinSize(1900, 1000);
+
 		
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
-				Rectangle rect = new Rectangle(60, 60, 60, 60);
-				rect.setFill(Color.WHITE);
-				rect.setStroke(Color.BLACK);
-				grid.add(rect, i, j);
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				if ((i % 2 == 0) && (j % 2 == 0)) {
+					Rectangle rect = new Rectangle(60, 60, 60, 60);
+					rect.setFill(Color.WHITE);
+					rect.setStroke(Color.BLACK);
+					grid.add(rect, i, j);
+				} else if (j % 2 == 1) {
+					maze.getRoom(i, j - 1);
+				} else if (i % 2 == 1) {
+					maze.getRoom(i - 1, j);
+				}
+				
 			}
 		}
 		
@@ -175,7 +181,7 @@ public class TriviaMaze extends Application{
 			
 		    @Override public void handle(ActionEvent e) {
 		    	if (currentPlayer.getRow() > 0) {
-			    	removeFromPane(grid, currentPlayer); 
+			    	removePlayer(grid, currentPlayer); 
 			    	currentPlayer.setRow(currentPlayer.getRow() - 1);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 			    	
@@ -194,7 +200,7 @@ public class TriviaMaze extends Application{
 			
 		    @Override public void handle(ActionEvent e) {
 		    	if (currentPlayer.getColumn() > 0) {
-			    	removeFromPane(grid, currentPlayer); 
+			    	removePlayer(grid, currentPlayer); 
 			    	currentPlayer.setColumn(currentPlayer.getColumn() - 1);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 		    	} else {
@@ -213,7 +219,7 @@ public class TriviaMaze extends Application{
 		    @Override public void handle(ActionEvent e) {
 
 		    	if (currentPlayer.getColumn() < 4) {
-			    	removeFromPane(grid, currentPlayer); 
+			    	removePlayer(grid, currentPlayer); 
 			    	currentPlayer.setColumn(currentPlayer.getColumn() + 1);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 			    	
@@ -232,7 +238,7 @@ public class TriviaMaze extends Application{
 			
 		    @Override public void handle(ActionEvent e) {
 		    	if (currentPlayer.getRow() < 4) {
-			    	removeFromPane(grid, currentPlayer); 
+			    	removePlayer(grid, currentPlayer); 
 			    	currentPlayer.setRow(currentPlayer.getRow() + 1);
 			    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 		    	} else {
@@ -254,8 +260,10 @@ public class TriviaMaze extends Application{
 		
 		StackPane Pane = new StackPane();
 		Pane.setStyle("-fx-background-color: dimgrey");
-		Pane.setMinSize(700, 500);
-		Pane.setMaxSize(700, 500);
+		//Pane.setMinSize(700, 500);
+		//Pane.setMaxSize(700, 500);
+		Pane.setMinSize(1900, 1000);
+		Pane.setMaxSize(1900, 1000);
 		
 		VBox gridAndButtonsBox = new VBox();
 		gridAndButtonsBox.getChildren().addAll(grid, allButtonsBox);
@@ -269,12 +277,13 @@ public class TriviaMaze extends Application{
 		Pane.getChildren().add(leftAndRightVBoxes);
 		StackPane.setAlignment(leftAndRightVBoxes, Pos.CENTER);
 		
-		Scene scene = new Scene(Pane, 700, 500);
+		//Scene scene = new Scene(Pane, 700, 500);
+		Scene scene = new Scene(Pane, 1900, 1000);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
-	void removeFromPane(GridPane grid, Player currentPlayer) {
+	void removePlayer(GridPane grid, Player currentPlayer) {
 		
 	    for (final Node node : grid.getChildren()) {
 	        if (node == currentPlayer.getShape()) {
