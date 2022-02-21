@@ -13,11 +13,11 @@ public class Question_Answer {
 	}
 	
 	String getQuestion() {
-		return questions[1];
+		return questions[0];
 	}
 	
 	String getQuestionType() {
-		return questionType[1];
+		return questionType[0];
 	}
 	
 	String getAnswer() {
