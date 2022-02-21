@@ -5,10 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//import org.sqlite.SQLiteDataSource;
+import org.sqlite.SQLiteDataSource;
 
 public class QuestionDatabase {
-	/*
+	
     public static void main(String[] args) {
 		SQLiteDataSource ds = null;
 	
@@ -79,5 +79,5 @@ public class QuestionDatabase {
             System.exit( 0 );
         }
     }
-    */
+    
 }

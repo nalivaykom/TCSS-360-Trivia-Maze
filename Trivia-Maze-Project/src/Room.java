@@ -22,5 +22,5 @@ public class Room {
 	protected void setBottomDoorPermLocked() {
 		bottomDoor.setPermLocked();
 	}
-
+	
 }
