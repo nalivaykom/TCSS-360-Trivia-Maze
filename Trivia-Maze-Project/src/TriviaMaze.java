@@ -32,6 +32,7 @@ public class TriviaMaze extends Application{
 	Question_Answer currentQA;
 	String currentQType;
 	boolean enterUnanswered;
+	boolean multUnanswered;
 	Door currentDoor;
 	Button aButton;
 	Button bButton;
@@ -49,6 +50,8 @@ public class TriviaMaze extends Application{
 	Room currentRoom;
 	Room adjacentRoom;
 	String playerDirection;
+	VBox fieldAndEnterBox;
+	HBox abcdButtons;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -75,7 +78,17 @@ public class TriviaMaze extends Application{
 		aButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "A";	
+				multipleChoiceSelection = "a";	
+				if (currentQType.equals("T/F") && (multUnanswered == true)) {
+					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+						movePlayer();
+					} else {
+						currentDoor.setPermLocked();
+						textArea.clear();
+		    			textArea.appendText("Wrong! This door is now locked");
+					}
+					abcdButtons.setVisible(false);
+				}
 			}	
 		});
 		
@@ -87,8 +100,17 @@ public class TriviaMaze extends Application{
 
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "B";
-				
+				multipleChoiceSelection = "b";
+				if (currentQType.equals("T/F") && (multUnanswered == true)) {
+					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+						movePlayer();
+					} else {
+						currentDoor.setPermLocked();
+						textArea.clear();
+		    			textArea.appendText("Wrong! This door is now locked");
+					}
+					abcdButtons.setVisible(false);
+				}
 			}
 			
 		});
@@ -101,8 +123,17 @@ public class TriviaMaze extends Application{
 
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "C";
-				
+				multipleChoiceSelection = "c";
+				if (currentQType.equals("T/F") && (multUnanswered == true)) {
+					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+						movePlayer();
+					} else {
+						currentDoor.setPermLocked();
+						textArea.clear();
+		    			textArea.appendText("Wrong! This door is now locked");
+					}
+					abcdButtons.setVisible(false);
+				}
 			}
 			
 		});
@@ -115,8 +146,17 @@ public class TriviaMaze extends Application{
 
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "D";
-				
+				multipleChoiceSelection = "d";
+				if (currentQType.equals("T/F") && (multUnanswered == true)) {
+					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+						movePlayer();
+					} else {
+						currentDoor.setPermLocked();
+						textArea.clear();
+		    			textArea.appendText("Wrong! This door is now locked");
+					}
+					abcdButtons.setVisible(false);
+				}
 			}
 			
 		});
@@ -131,76 +171,28 @@ public class TriviaMaze extends Application{
 		    @Override public void handle(ActionEvent e) {
 		    	userInput = textField.getText();
 		    	if (currentQType.equals("Short Answer") && (enterUnanswered == true)) { 
-			    	switch (playerDirection) {
-			    	case "up":
-			    		if (gotItRight(currentQA)) {
-				    		removePlayer(grid, currentPlayer); 
-				    		currentPlayer.setRow(currentPlayer.getRow() - 2);
-				    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-				    		textArea.clear();
-			    			textArea.appendText("Correct!");
-			    		} else {
-			    			currentDoor.setPermLocked();
-			    			textArea.clear();
-			    			textArea.appendText("Wrong! This door is now locked");
-			    		}
-			    		enterUnanswered = false;
-			    		break;
-			    	case "left":
-			    		if (gotItRight(currentQA)) {
-				    		removePlayer(grid, currentPlayer); 
-				    		currentPlayer.setColumn(currentPlayer.getColumn() - 2);
-				    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-				    		textArea.clear();
-			    			textArea.appendText("Correct!");
-			    		} else {
-			    			currentDoor.setPermLocked();
-			    			textArea.clear();
-			    			textArea.appendText("Wrong! This door is now locked");
-			    		}
-			    		enterUnanswered = false;
-			    		break;
-			    	case "right":
-			    		if (gotItRight(currentQA)) {
-				    		removePlayer(grid, currentPlayer); 
-				    		currentPlayer.setColumn(currentPlayer.getColumn() + 2);
-				    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-				    		textArea.clear();
-			    			textArea.appendText("Correct!");
-			    		} else {
-			    			currentDoor.setPermLocked();
-			    			textArea.clear();
-			    			textArea.appendText("Wrong! This door is now locked");
-			    		}
-			    		enterUnanswered = false;
-			    		break;
-			    	case "down":
-			    		if (gotItRight(currentQA)) {
-				    		removePlayer(grid, currentPlayer); 
-				    		currentPlayer.setRow(currentPlayer.getRow() + 2);
-				    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-				    		textArea.clear();
-			    			textArea.appendText("Correct!");
-			    		} else {
-			    			currentDoor.setPermLocked();
-			    			textArea.clear();
-			    			textArea.appendText("Wrong! This door is now locked");
-			    		}
-			    		enterUnanswered = false;
-			    		break;
-			    	}
-		    	}
-		    	
+		    		if (gotItRight(currentQA)) {
+		    			textField.clear();
+		    			movePlayer();
+		    		} else {
+		    			currentDoor.setPermLocked();
+		    			textField.clear();
+		    			textArea.clear();
+		    			textArea.appendText("Wrong! This door is now locked");
+		    		}
+		    		fieldAndEnterBox.setVisible(false);
+		    	} 
 		    }
-		    
 		});
 		
-		VBox fieldAndEnterBox = new VBox(10);
+		fieldAndEnterBox = new VBox(10);
 		fieldAndEnterBox.setAlignment(Pos.CENTER);
 		fieldAndEnterBox.getChildren().addAll(textField, enterButton);
+		fieldAndEnterBox.setVisible(false);
 		
-		HBox abcdButtons = new HBox(33);
+		abcdButtons = new HBox(33);
 		abcdButtons.getChildren().addAll(aButton, bButton, cButton, dButton);
+		abcdButtons.setVisible(false);
 		
 		VBox leftVBox = new VBox(40);
 		leftVBox.setAlignment(Pos.CENTER);
@@ -264,7 +256,8 @@ public class TriviaMaze extends Application{
 		    			textArea.appendText("This door is permanently locked");
 		    		}
 		    	} else {
-		    		textArea.appendText("\nCannot go up");
+		    		textArea.clear();
+		    		textArea.appendText("Cannot go up");
 		    	}
 		    	
 		    }
@@ -289,7 +282,8 @@ public class TriviaMaze extends Application{
 		    			textArea.appendText("This door is permanently locked");
 		    		}
 		    	} else {
-		    		textArea.appendText("\nCannot go left");
+		    		textArea.clear();
+		    		textArea.appendText("Cannot go left");
 		    	}
 		    }
 		});
@@ -314,7 +308,8 @@ public class TriviaMaze extends Application{
 		    			textArea.appendText("This door is permanently locked");
 		    		}
 		    	} else {
-		    		textArea.appendText("\nCannot go right");
+		    		textArea.clear();
+		    		textArea.appendText("Cannot go right");
 		    	}
 		    }
 		});
@@ -338,7 +333,8 @@ public class TriviaMaze extends Application{
 		    			textArea.appendText("This door is permanently locked");
 		    		}
 		    	} else {
-		    		textArea.appendText("\nCannot go down");
+		    		textArea.clear();
+		    		textArea.appendText("Cannot go down");
 		    	}
 
 		    }
@@ -378,9 +374,9 @@ public class TriviaMaze extends Application{
 	void removePlayer(GridPane grid, Player currentPlayer) {
 		
 	    for (final Node node : grid.getChildren()) {
-	        if (node == currentPlayer.getShape()) {
-	            grid.getChildren().removeAll(node);
-	            break;
+		    if (node == currentPlayer.getShape()) {
+			    grid.getChildren().removeAll(node);
+			    break;
 	        }          
 	    }  
 	}
@@ -388,7 +384,15 @@ public class TriviaMaze extends Application{
 	private void askQuestion(Question_Answer qA) {
 		currentQType = qA.getQuestionType();
 		if (currentQType.equals("Short Answer")) {
+			multUnanswered = false;
+			fieldAndEnterBox.setVisible(true);
+			abcdButtons.setVisible(false);
 			enterUnanswered = true;
+		} else if (currentQType.equals("T/F")) {
+			enterUnanswered = false;
+			abcdButtons.setVisible(true);
+			fieldAndEnterBox.setVisible(false);
+			multUnanswered = true;
 		}
 		textArea.clear();
 		textArea.appendText(qA.getQuestion());
@@ -402,6 +406,63 @@ public class TriviaMaze extends Application{
 			gotItRight = true;
 		}
 		return gotItRight;
+	}
+	
+	private boolean gotItRightMult(Question_Answer qA, String userAnswer) {
+		boolean gotItRight = false;
+		String rightAnswer = qA.getAnswer();
+		if (rightAnswer.equals(userAnswer)) {
+			gotItRight = true;
+		}
+		return gotItRight;
+	}
+	
+	private void movePlayer() {
+		switch (playerDirection) {
+    	case "up":
+   
+    		removePlayer(grid, currentPlayer); 
+    		currentPlayer.setRow(currentPlayer.getRow() - 2);
+    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+    		textArea.clear();
+			textArea.appendText("Correct!");
+    		multUnanswered = false;
+    		enterUnanswered = false;
+    		break;
+    		
+    	case "left":
+    		
+    		removePlayer(grid, currentPlayer); 
+    		currentPlayer.setColumn(currentPlayer.getColumn() - 2);
+    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+    		textArea.clear();
+			textArea.appendText("Correct!");
+    		multUnanswered = false;
+    		enterUnanswered = false;
+    		break;
+    		
+    	case "right":
+    		
+    		removePlayer(grid, currentPlayer); 
+    		currentPlayer.setColumn(currentPlayer.getColumn() + 2);
+    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+    		textArea.clear();
+			textArea.appendText("Correct!");
+    		multUnanswered = false;
+    		enterUnanswered = false;
+    		break;
+    	
+    	case "down":
+    		
+    		removePlayer(grid, currentPlayer); 
+    		currentPlayer.setRow(currentPlayer.getRow() + 2);
+    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+    		textArea.clear();
+			textArea.appendText("Correct!");
+    		multUnanswered = false;
+    		enterUnanswered = false;
+    		break;
+    	}
 	}
 	
 	public static void main(String[] args) {
