@@ -8,8 +8,8 @@ public class Question_Answer {
 	int temp;
 	
 	Question_Answer() {
-		questions[0] = "what is 3 + 3";
-		questions[1] = "pick 7 \na: 4 \nb: 5 \nc: 6 \nd: 7";
+		questions[0] = "What is 3 + 3";
+		questions[1] = "What is 4 + 3? \na: 4 \nb: 5 \nc: 6 \nd: 7";
 		questions[2] = "is the sky blue?";
 		questionType[0] = "Short Answer";
 		questionType[1] = "abcd";
