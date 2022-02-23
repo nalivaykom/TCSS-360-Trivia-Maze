@@ -13,7 +13,7 @@ public class Question_Answer {
 		questionType[0] = "Short Answer";
 		questionType[1] = "T/F";
 		answer[0] = "6";
-		answer[1] = "a";
+		answer[1] = "d";
 		temp = (Math.random() <= 0.5) ? 0 : 1;
 	}
 	
