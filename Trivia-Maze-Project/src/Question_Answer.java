@@ -10,15 +10,14 @@ public class Question_Answer {
 	Question_Answer() {
 		questions[0] = "What is 3 + 3";
 		questions[1] = "What is 4 + 3? \na: 4 \nb: 5 \nc: 6 \nd: 7";
-		questions[2] = "is the sky blue?";
+		questions[2] = "The sky is blue";
 		questionType[0] = "Short Answer";
 		questionType[1] = "abcd";
 		questionType[2] = "T/F";
 		answer[0] = "6";
 		answer[1] = "d";
 		answer[2] = "true";
-        //temp = (int)(Math.random() * 2);
-		//temp = (Math.random() <= 0.5) ? 0 : 2;
+      
 		double temp1 = Math.random();
 		if (temp1 < 0.3333333) {
 			temp = 0;
