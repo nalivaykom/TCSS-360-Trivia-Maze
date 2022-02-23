@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import java.util.*;
 
-public class TriviaMaze extends Application{
+public class TriviaMaze extends Application {
 
 	Maze maze;
 	GridPane grid;
@@ -33,6 +33,7 @@ public class TriviaMaze extends Application{
 	String currentQType;
 	boolean enterUnanswered;
 	boolean multUnanswered;
+	boolean trueFalseUnanswered;
 	Door currentDoor;
 	Button aButton;
 	Button bButton;
@@ -40,6 +41,8 @@ public class TriviaMaze extends Application{
 	Button dButton;
 	Button enterButton;
 	Button upButton;
+	Button trueButton;
+	Button falseButton;
 	Button leftButton;
 	Button rightButton;
 	Button downButton;
@@ -51,7 +54,8 @@ public class TriviaMaze extends Application{
 	Room adjacentRoom;
 	String playerDirection;
 	VBox fieldAndEnterBox;
-	HBox abcdButtons;
+	HBox abcdButtonsBox;
+	HBox trueFalseButtonsBox;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -79,15 +83,15 @@ public class TriviaMaze extends Application{
 			@Override
 			public void handle(ActionEvent e) {
 				multipleChoiceSelection = "a";	
-				if (currentQType.equals("T/F") && (multUnanswered == true)) {
-					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+				if (currentQType.equals("abcd") && (multUnanswered == true)) {
+					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
 						movePlayer();
 					} else {
 						currentDoor.setPermLocked();
 						textArea.clear();
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtons.setVisible(false);
+					abcdButtonsBox.setVisible(false);
 				}
 			}	
 		});
@@ -101,15 +105,15 @@ public class TriviaMaze extends Application{
 			@Override
 			public void handle(ActionEvent e) {
 				multipleChoiceSelection = "b";
-				if (currentQType.equals("T/F") && (multUnanswered == true)) {
-					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+				if (currentQType.equals("abcd") && (multUnanswered == true)) {
+					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
 						movePlayer();
 					} else {
 						currentDoor.setPermLocked();
 						textArea.clear();
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtons.setVisible(false);
+					abcdButtonsBox.setVisible(false);
 				}
 			}
 			
@@ -124,15 +128,15 @@ public class TriviaMaze extends Application{
 			@Override
 			public void handle(ActionEvent e) {
 				multipleChoiceSelection = "c";
-				if (currentQType.equals("T/F") && (multUnanswered == true)) {
-					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+				if (currentQType.equals("abcd") && (multUnanswered == true)) {
+					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
 						movePlayer();
 					} else {
 						currentDoor.setPermLocked();
 						textArea.clear();
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtons.setVisible(false);
+					abcdButtonsBox.setVisible(false);
 				}
 			}
 			
@@ -147,15 +151,15 @@ public class TriviaMaze extends Application{
 			@Override
 			public void handle(ActionEvent e) {
 				multipleChoiceSelection = "d";
-				if (currentQType.equals("T/F") && (multUnanswered == true)) {
-					if (gotItRightMult(currentQA, multipleChoiceSelection)) {
+				if (currentQType.equals("abcd") && (multUnanswered == true)) {
+					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
 						movePlayer();
 					} else {
 						currentDoor.setPermLocked();
 						textArea.clear();
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtons.setVisible(false);
+					abcdButtonsBox.setVisible(false);
 				}
 			}
 			
@@ -188,15 +192,65 @@ public class TriviaMaze extends Application{
 		fieldAndEnterBox = new VBox(10);
 		fieldAndEnterBox.setAlignment(Pos.CENTER);
 		fieldAndEnterBox.getChildren().addAll(textField, enterButton);
-		fieldAndEnterBox.setVisible(false);
+        fieldAndEnterBox.setVisible(false);
 		
-		abcdButtons = new HBox(33);
-		abcdButtons.getChildren().addAll(aButton, bButton, cButton, dButton);
-		abcdButtons.setVisible(false);
+		abcdButtonsBox = new HBox(33);
+		abcdButtonsBox.getChildren().addAll(aButton, bButton, cButton, dButton);
+		abcdButtonsBox.setVisible(false);
+		
+		trueButton = new Button();
+		trueButton.setText("True");
+		trueButton.setMinSize(100, 25);
+		trueButton.setMaxSize(100, 25);
+		trueButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override public void handle(ActionEvent e) {
+		    	if (currentQType.equals("T/F") && (trueFalseUnanswered == true)) { 
+		    		if (gotItRightWithString(currentQA, "true")) {
+		    			textField.clear();
+		    			movePlayer();
+		    		} else {
+		    			currentDoor.setPermLocked();
+		    			textField.clear();
+		    			textArea.clear();
+		    			textArea.appendText("Wrong! This door is now locked");
+		    		}
+		    		trueFalseButtonsBox.setVisible(false);
+		    	} 
+		    }
+		});
+		
+		falseButton = new Button();
+		falseButton.setText("False");
+		falseButton.setMinSize(100, 25);
+		falseButton.setMaxSize(100, 25);
+		falseButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override public void handle(ActionEvent e) {
+		    	if (currentQType.equals("T/F") && (trueFalseUnanswered == true)) { 
+		    		if (gotItRightWithString(currentQA, "false")) {
+		    			textField.clear();
+		    			movePlayer();
+		    		} else {
+		    			currentDoor.setPermLocked();
+		    			textField.clear();
+		    			textArea.clear();
+		    			textArea.appendText("Wrong! This door is now locked");
+		    		}
+		    		trueFalseButtonsBox.setVisible(false);
+		    	} 
+		    }
+		});
+		
+		trueFalseButtonsBox = new HBox(25);
+		trueFalseButtonsBox.getChildren().addAll(trueButton, falseButton);
+		trueFalseButtonsBox.setAlignment(Pos.CENTER);
+		trueFalseButtonsBox.setVisible(false);
 		
 		VBox leftVBox = new VBox(40);
 		leftVBox.setAlignment(Pos.CENTER);
-		leftVBox.getChildren().addAll(textArea, fieldAndEnterBox, abcdButtons);
+		leftVBox.getChildren().addAll(textArea, fieldAndEnterBox, abcdButtonsBox, trueFalseButtonsBox);
+		
 		
 		//going to need to ask the player for their name here.
 		currentPlayer = new Player("Player", 0, 0);
@@ -385,14 +439,31 @@ public class TriviaMaze extends Application{
 		currentQType = qA.getQuestionType();
 		if (currentQType.equals("Short Answer")) {
 			multUnanswered = false;
+			trueFalseUnanswered = false;
+			
 			fieldAndEnterBox.setVisible(true);
-			abcdButtons.setVisible(false);
+			abcdButtonsBox.setVisible(false);
+			trueFalseButtonsBox.setVisible(false);
+			
 			enterUnanswered = true;
+		} else if (currentQType.equals("abcd")) {
+			enterUnanswered = false;
+			trueFalseUnanswered = false;
+			
+			fieldAndEnterBox.setVisible(false);
+			abcdButtonsBox.setVisible(true);
+			trueFalseButtonsBox.setVisible(false);
+			
+			multUnanswered = true;
 		} else if (currentQType.equals("T/F")) {
 			enterUnanswered = false;
-			abcdButtons.setVisible(true);
+			multUnanswered = false;
+			
 			fieldAndEnterBox.setVisible(false);
-			multUnanswered = true;
+			abcdButtonsBox.setVisible(false);
+			trueFalseButtonsBox.setVisible(true);
+			
+			trueFalseUnanswered = true;
 		}
 		textArea.clear();
 		textArea.appendText(qA.getQuestion());
@@ -408,7 +479,7 @@ public class TriviaMaze extends Application{
 		return gotItRight;
 	}
 	
-	private boolean gotItRightMult(Question_Answer qA, String userAnswer) {
+	private boolean gotItRightWithString(Question_Answer qA, String userAnswer) {
 		boolean gotItRight = false;
 		String rightAnswer = qA.getAnswer();
 		if (rightAnswer.equals(userAnswer)) {
