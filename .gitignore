@@ -1,9 +1,8 @@
-<<<<<<< HEAD
+
 # Macbook file
 .DS_Store
-=======
+
 *.classpath
-*.DS_Store
 # Compiled class file
 *.class
 
@@ -12,7 +11,6 @@
 
 # BlueJ files
 *.ctxt
->>>>>>> b18ec111b66c71b3d942fb9ff1fd14c0afeff9bd
 
 # Java related
 target/**
