@@ -22,7 +22,7 @@ public class PlayerDatabase {
 	    }
 	
 	    // create question table
-	    String query = "CREATE TABLE IF NOT EXISTS questions ( " +
+	    String query = "CREATE TABLE IF NOT EXISTS players ( " +
 	            "NAME TEXT NOT NULL, " +
 	            "ID INT NOT NULL )";
 	    try ( Connection conn = ds.getConnection();
@@ -38,7 +38,7 @@ public class PlayerDatabase {
 	    //next insert the player information
         System.out.println( "Attempting to insert two rows into questions table" );
 
-        String query1 = "INSERT INTO questions ( NAME, ID ) VALUES ( 'Joe', 1 )";
+        String query1 = "INSERT INTO players ( NAME, ID ) VALUES ( 'Joe', 1 )";
 
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
