@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -11,12 +12,13 @@ public class Door {
 	private boolean permLocked;
 	private boolean locked;
 	private Rectangle rectangle = new Rectangle(15,30);
+	private Question_Answer qA;
 
 	Door() {
 		permLocked = false;
 		locked = true;
 		rectangle = setToDoor();
-		
+		qA = new Question_Answer();
 	}
 	
 	/*
@@ -55,5 +57,7 @@ public class Door {
 		this.rectangle.setFill(new ImagePattern(img));
 		return this.rectangle;
 	}
-	
+	protected Question_Answer getQuestion_Answer() {
+		return this.qA;
+	}
 }
