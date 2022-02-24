@@ -634,4 +634,5 @@ public class TriviaMaze extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 }
