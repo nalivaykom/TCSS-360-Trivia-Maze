@@ -34,6 +34,7 @@ public class TriviaMaze extends Application {
 	boolean enterUnanswered;
 	boolean multUnanswered;
 	boolean trueFalseUnanswered;
+	boolean notAtEnd;
 	Door currentDoor;
 	Button aButton;
 	Button bButton;
@@ -281,6 +282,7 @@ public class TriviaMaze extends Application {
 		}
 		
 		grid.add(currentPlayer.getShape(), 0, 0);
+		notAtEnd = true;
 		
 		final Circle endCircle = new Circle(0,0,25);
 		final Text endText = new Text("END");
@@ -297,23 +299,39 @@ public class TriviaMaze extends Application {
 		upButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	
-		    	if (currentPlayer.getRow() > 0) {
-		    		Room upperRoom = maze.getRoom(currentPlayer.getRow() - 2, currentPlayer.getColumn());
-		    		currentDoor = upperRoom.getBottomDoor();
-		    		currentQA = currentDoor.getQuestion_Answer();
-		    		if (!currentDoor.getPermLockStat()) {
-		    			askQuestion(currentQA);
-		    			playerDirection = "up";
+		    	if (notAtEnd) {
+		    		if (currentPlayer.getRow() > 0) {
+		    			Room upperRoom = maze.getRoom(currentPlayer.getRow() - 2, currentPlayer.getColumn());
+			    		currentDoor = upperRoom.getBottomDoor();
+			    		currentQA = currentDoor.getQuestion_Answer();
+			    		if (!currentDoor.getPermLockStat()) {
+			    			askQuestion(currentQA);
+			    			playerDirection = "up";
+			    		} else {
+			    			textArea.clear();
+			    			textArea.appendText("This door is permanently locked");
+			    		}
 		    		} else {
 		    			textArea.clear();
-		    			textArea.appendText("This door is permanently locked");
+			    		textArea.appendText("Cannot go up");
+		    		}
+		    	} else {
+		    		textArea.clear();
+	    			textArea.appendText("No need to move, you already won!");
+		    	}
+		    	/*
+		    	if (currentPlayer.getRow() > 0) {
+		    		if (notAtEnd) {
+			    		
+		    		} else {
+		    			textArea.clear();
+		    			textArea.appendText("No need to move, you already won!");
 		    		}
 		    	} else {
 		    		textArea.clear();
 		    		textArea.appendText("Cannot go up");
 		    	}
-		    	
+		    	*/
 		    }
 		});
 		
@@ -324,21 +342,39 @@ public class TriviaMaze extends Application {
 		leftButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	if (currentPlayer.getColumn() > 0) {
-		    		Room leftRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn() - 2);
-		    		currentDoor = leftRoom.getRightDoor();
-		    		currentQA = currentDoor.getQuestion_Answer();
-		    		if (!currentDoor.getPermLockStat()) {
-		    			askQuestion(currentQA);
-		    			playerDirection = "left";
+		    	if (notAtEnd) {
+		    		if (currentPlayer.getColumn() > 0) {
+		    			Room leftRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn() - 2);
+			    		currentDoor = leftRoom.getRightDoor();
+			    		currentQA = currentDoor.getQuestion_Answer();
+			    		if (!currentDoor.getPermLockStat()) {
+			    			askQuestion(currentQA);
+			    			playerDirection = "left";
+			    		} else {
+			    			textArea.clear();
+			    			textArea.appendText("This door is permanently locked");
+			    		}
 		    		} else {
 		    			textArea.clear();
-		    			textArea.appendText("This door is permanently locked");
+			    		textArea.appendText("Cannot go left");
+		    		}
+		    	} else {
+		    		textArea.clear();
+	    			textArea.appendText("No need to move, you already won!");
+		    	}
+		    	/*
+		    	if (currentPlayer.getColumn() > 0) {
+		    		if (notAtEnd) {
+			    		
+		    		} else {
+		    			textArea.clear();
+		    			textArea.appendText("No need to move, you already won!");
 		    		}
 		    	} else {
 		    		textArea.clear();
 		    		textArea.appendText("Cannot go left");
 		    	}
+		    	*/
 		    }
 		});
 		
@@ -349,22 +385,39 @@ public class TriviaMaze extends Application {
 		rightButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-
-		    	if (currentPlayer.getColumn() < 8) {
-		    		Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
-		    		currentDoor = thisRoom.getRightDoor();
-		    		currentQA = currentDoor.getQuestion_Answer();
-		    		if (!currentDoor.getPermLockStat()) {
-		    			askQuestion(currentQA);
-		    			playerDirection = "right";
+		    	if (notAtEnd) {
+		    		if (currentPlayer.getColumn() < 8) {
+		    			Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
+			    		currentDoor = thisRoom.getRightDoor();
+			    		currentQA = currentDoor.getQuestion_Answer();
+			    		if (!currentDoor.getPermLockStat()) {
+			    			askQuestion(currentQA);
+			    			playerDirection = "right";
+			    		} else {
+			    			textArea.clear();
+			    			textArea.appendText("This door is permanently locked");
+			    		}
 		    		} else {
 		    			textArea.clear();
-		    			textArea.appendText("This door is permanently locked");
+			    		textArea.appendText("Cannot go right");
+		    		}
+		    	} else {
+		    		textArea.clear();
+	    			textArea.appendText("No need to move, you already won!");
+		    	}
+		    	/*
+		    	if (currentPlayer.getColumn() < 8) {
+		    		if (notAtEnd) {
+			    		
+		    		} else {
+		    			textArea.clear();
+		    			textArea.appendText("No need to move, you already won!");
 		    		}
 		    	} else {
 		    		textArea.clear();
 		    		textArea.appendText("Cannot go right");
 		    	}
+		    	*/
 		    }
 		});
 		
@@ -375,22 +428,40 @@ public class TriviaMaze extends Application {
 		downButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	if (currentPlayer.getRow() < 8) {
-		    		Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
-		    		currentDoor = thisRoom.getBottomDoor();
-		    		currentQA = currentDoor.getQuestion_Answer();
-		    		if (!currentDoor.getPermLockStat()) {
-		    			askQuestion(currentQA);
-		    			playerDirection = "down";
+		    	if (notAtEnd) {
+		    		if (currentPlayer.getRow() < 8) {
+		    			Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
+			    		currentDoor = thisRoom.getBottomDoor();
+			    		currentQA = currentDoor.getQuestion_Answer();
+			    		if (!currentDoor.getPermLockStat()) {
+			    			askQuestion(currentQA);
+			    			playerDirection = "down";
+			    		} else {
+			    			textArea.clear();
+			    			textArea.appendText("This door is permanently locked");
+			    		}
 		    		} else {
 		    			textArea.clear();
-		    			textArea.appendText("This door is permanently locked");
+			    		textArea.appendText("Cannot go down");
+		    		}
+		    	} else {
+		    		textArea.clear();
+	    			textArea.appendText("No need to move, you already won!");
+		    	}
+		    		
+		    	/*
+		    	if (currentPlayer.getRow() < 8) {
+		    		if (notAtEnd) {
+			    		
+		    		} else {
+		    			textArea.clear();
+		    			textArea.appendText("No need to move, you already won!");
 		    		}
 		    	} else {
 		    		textArea.clear();
 		    		textArea.appendText("Cannot go down");
 		    	}
-
+                */
 		    }
 		});
 	
@@ -499,6 +570,12 @@ public class TriviaMaze extends Application {
 			textArea.appendText("Correct!");
     		multUnanswered = false;
     		enterUnanswered = false;
+    		trueFalseUnanswered = false;
+    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			notAtEnd = false;
+    			textArea.clear();
+    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    		}
     		break;
     		
     	case "left":
@@ -510,6 +587,12 @@ public class TriviaMaze extends Application {
 			textArea.appendText("Correct!");
     		multUnanswered = false;
     		enterUnanswered = false;
+    		trueFalseUnanswered = false;
+    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			notAtEnd = false;
+    			textArea.clear();
+    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    		}
     		break;
     		
     	case "right":
@@ -521,6 +604,12 @@ public class TriviaMaze extends Application {
 			textArea.appendText("Correct!");
     		multUnanswered = false;
     		enterUnanswered = false;
+    		trueFalseUnanswered = false;
+    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			notAtEnd = false;
+    			textArea.clear();
+    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    		}
     		break;
     	
     	case "down":
@@ -532,6 +621,12 @@ public class TriviaMaze extends Application {
 			textArea.appendText("Correct!");
     		multUnanswered = false;
     		enterUnanswered = false;
+    		trueFalseUnanswered = false;
+    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			notAtEnd = false;
+    			textArea.clear();
+    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    		}
     		break;
     	}
 	}
