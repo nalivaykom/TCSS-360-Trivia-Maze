@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 .classpath
-.DS.Store
-=======
 .DS_Store
-.classpath
->>>>>>> e98c7ee2e190da2d7f780a367b50e2772fb8f209
 # Compiled class file
 *.class
 
