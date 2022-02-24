@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Macbook file
 .DS_Store
 
@@ -29,3 +30,6 @@ local.properties
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+=======
+/bin/
+>>>>>>> b18ec111b66c71b3d942fb9ff1fd14c0afeff9bd
