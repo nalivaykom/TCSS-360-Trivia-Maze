@@ -29,7 +29,6 @@ public class Question_Answer {
 	}
 	
 	String getQuestion() {
-		System.out.println();
 		return questions[temp];
 	}
 	
