@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.shape.Circle;
@@ -319,19 +320,6 @@ public class TriviaMaze extends Application {
 		    		textArea.clear();
 	    			textArea.appendText("No need to move, you already won!");
 		    	}
-		    	/*
-		    	if (currentPlayer.getRow() > 0) {
-		    		if (notAtEnd) {
-			    		
-		    		} else {
-		    			textArea.clear();
-		    			textArea.appendText("No need to move, you already won!");
-		    		}
-		    	} else {
-		    		textArea.clear();
-		    		textArea.appendText("Cannot go up");
-		    	}
-		    	*/
 		    }
 		});
 		
@@ -362,19 +350,6 @@ public class TriviaMaze extends Application {
 		    		textArea.clear();
 	    			textArea.appendText("No need to move, you already won!");
 		    	}
-		    	/*
-		    	if (currentPlayer.getColumn() > 0) {
-		    		if (notAtEnd) {
-			    		
-		    		} else {
-		    			textArea.clear();
-		    			textArea.appendText("No need to move, you already won!");
-		    		}
-		    	} else {
-		    		textArea.clear();
-		    		textArea.appendText("Cannot go left");
-		    	}
-		    	*/
 		    }
 		});
 		
@@ -405,19 +380,6 @@ public class TriviaMaze extends Application {
 		    		textArea.clear();
 	    			textArea.appendText("No need to move, you already won!");
 		    	}
-		    	/*
-		    	if (currentPlayer.getColumn() < 8) {
-		    		if (notAtEnd) {
-			    		
-		    		} else {
-		    			textArea.clear();
-		    			textArea.appendText("No need to move, you already won!");
-		    		}
-		    	} else {
-		    		textArea.clear();
-		    		textArea.appendText("Cannot go right");
-		    	}
-		    	*/
 		    }
 		});
 		
@@ -448,20 +410,6 @@ public class TriviaMaze extends Application {
 		    		textArea.clear();
 	    			textArea.appendText("No need to move, you already won!");
 		    	}
-		    		
-		    	/*
-		    	if (currentPlayer.getRow() < 8) {
-		    		if (notAtEnd) {
-			    		
-		    		} else {
-		    			textArea.clear();
-		    			textArea.appendText("No need to move, you already won!");
-		    		}
-		    	} else {
-		    		textArea.clear();
-		    		textArea.appendText("Cannot go down");
-		    	}
-                */
 		    }
 		});
 	
