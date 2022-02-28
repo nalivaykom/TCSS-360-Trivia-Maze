@@ -37,19 +37,21 @@ public class QuestionDatabase {
 	    				+ "'Bailey', 300 )";
 	    
 	    System.out.println( "Selecting all rows from test table" );
-	    query = "SELECT * FROM questions";
+	    String query3 = "SELECT * FROM questions";
 	    
 	    try ( Connection conn = ds.getConnection();
-			    Statement stmt = conn.createStatement(); ){
+			  Statement stmt = conn.createStatement(); ){
+		       
 	    	  int rv = stmt.executeUpdate( query );
 	          System.out.println( "executeUpdate() returned " + rv );
+	          
 	          rv = stmt.executeUpdate( query1 );
 	          System.out.println( "1st executeUpdate() returned " + rv );
 
 	          rv = stmt.executeUpdate( query2 );
 	          System.out.println( "2nd executeUpdate() returned " + rv );
 	          
-	          ResultSet rs = stmt.executeQuery(query);
+	          ResultSet rs = stmt.executeQuery(query3);
 	            
 	            //walk through each 'row' of results, grab data by column/field name
 	            // and print it

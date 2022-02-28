@@ -24,7 +24,8 @@ public class PlayerDatabase {
 	    // create question table
 	    String query = "CREATE TABLE IF NOT EXISTS players ( " +
 	            "NAME TEXT NOT NULL, " +
-	            "ID INT NOT NULL )";
+	            "ID INTEGER NOT NULL AUTOINCREMENT, "
+	            + "PRIMARY KEY (ID) )";
 	    try ( Connection conn = ds.getConnection();
 	            Statement stmt = conn.createStatement(); ) {
 	          int rv = stmt.executeUpdate( query );
