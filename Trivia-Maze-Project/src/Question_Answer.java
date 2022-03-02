@@ -8,15 +8,26 @@ public class Question_Answer {
 	int temp;
 	
 	Question_Answer() {
-		questions[0] = "What is 3 + 3";
-		questions[1] = "What is 4 + 3? \na: 4 \nb: 5 \nc: 6 \nd: 7";
-		questions[2] = "The sky is blue";
 		questionType[0] = "Short Answer";
-		questionType[1] = "abcd";
-		questionType[2] = "T/F";
+		questions[0] = "What is 3 + 3";
 		answer[0] = "6";
+		
+		questionType[1] = "abcd";
+		questions[1] = "What is 4 + 3? \na: 4 \nb: 5 \nc: 6 \nd: 7";
 		answer[1] = "d";
+		
+		questionType[2] = "T/F";
+		questions[2] = "The sky is blue";
 		answer[2] = "true";
+		
+		questionType[3] = "Short Answer";
+		questions[3] = "What level is vorkath after the Dragon Slayer 2 quest?";
+		answer[3] = "732";
+		
+		questionType[4] = "Short Answer";
+		questions[4] = "";
+		answer[4] = "";
+		
       
 		double temp1 = Math.random();
 		if (temp1 < 0.3333333) {
