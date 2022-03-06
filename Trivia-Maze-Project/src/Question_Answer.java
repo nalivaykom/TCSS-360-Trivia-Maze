@@ -24,11 +24,20 @@ public class Question_Answer {
 		questions[3] = "What level is vorkath after the Dragon Slayer 2 quest?";
 		answer[3] = "732";
 		
-		questionType[4] = "Short Answer";
-		questions[4] = "";
-		answer[4] = "";
+		questionType[4] = "abcd";
+		questions[4] = "What is city is the Grand Exchange closest to?"
+				+ " \na: Ardougne \nb: Lunar aisle \nc: Falador \nd: Varrock";
+		answer[4] = "d";
 		
+		questionType[5] = "T/F";
+		questions[5] = "There exists a combat level 2,000 boss in the OSRS code";
+		answer[5] = "true";
+		
+		questionType[6] = "Short Answer";
+		questions[6] = "How much xp do you get for cooking a shark";
+		answer[6] = "210";
       
+		
 		double temp1 = Math.random();
 		if (temp1 < 0.3333333) {
 			temp = 0;
