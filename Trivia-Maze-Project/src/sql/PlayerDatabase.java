@@ -23,8 +23,9 @@ public class PlayerDatabase {
 	
 	    // create question table
 	    String query = "CREATE TABLE IF NOT EXISTS players ( " +
-	            "NAME TEXT NOT NULL, " +
-	            "ID INT NOT NULL )";
+	            "NAME TEXT NOT NULL, "
+	            + "ID INTEGER NOT NULL, "
+	            + "PRIMARY KEY (ID) )";
 	    try ( Connection conn = ds.getConnection();
 	            Statement stmt = conn.createStatement(); ) {
 	          int rv = stmt.executeUpdate( query );
@@ -38,12 +39,16 @@ public class PlayerDatabase {
 	    //next insert the player information
         System.out.println( "Attempting to insert two rows into questions table" );
 
-        String query1 = "INSERT INTO players ( NAME, ID ) VALUES ( 'Joe', 1 )";
+        // String query1 = "INSERT INTO players ( NAME, ID ) VALUES ( 'Joe', 1 )";
+        String query1 = "INSERT INTO players ( NAME) VALUES ('Joe')";
+        //String query2 = "INSERT INTO players ( NAME) VALUES ('Jane')";
 
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
             int rv = stmt.executeUpdate( query1 );
-            System.out.println( "1st executeUpdate() returned " + rv );
+            System.out.println( "1st executeUpdate() returned " + rv ); 
+//            rv = stmt.executeUpdate( query2 );
+//            System.out.println( "2nd executeUpdate() returned " + rv );
             
         } catch ( SQLException e ) {
             e.printStackTrace();
@@ -53,7 +58,7 @@ public class PlayerDatabase {
         
         //now query the database table for all its contents and display the results
         System.out.println( "Selecting all rows from test table" );
-        query = "SELECT * FROM questions";
+        query = "SELECT * FROM players";
 
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
