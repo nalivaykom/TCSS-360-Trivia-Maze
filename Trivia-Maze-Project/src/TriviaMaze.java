@@ -501,7 +501,7 @@ public class TriviaMaze extends Application {
 	private boolean gotItRightWithString(Question_Answer qA, String userAnswer) {
 		boolean gotItRight = false;
 		String rightAnswer = qA.getAnswer();
-		if (rightAnswer.equals(userAnswer)) {
+		if (rightAnswer.equalsIgnoreCase(userAnswer)) {
 			gotItRight = true;
 		}
 		return gotItRight;
