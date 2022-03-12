@@ -305,6 +305,7 @@ public class TriviaMaze extends Application {
 		    			Room upperRoom = maze.getRoom(currentPlayer.getRow() - 2, currentPlayer.getColumn());
 			    		currentDoor = upperRoom.getBottomDoor();
 			    		currentQA = currentDoor.getQuestion_Answer();
+			    		currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
 			    			askQuestion(currentQA);
 			    			playerDirection = "up";
@@ -335,6 +336,7 @@ public class TriviaMaze extends Application {
 		    			Room leftRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn() - 2);
 			    		currentDoor = leftRoom.getRightDoor();
 			    		currentQA = currentDoor.getQuestion_Answer();
+			    		currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
 			    			askQuestion(currentQA);
 			    			playerDirection = "left";
@@ -365,6 +367,7 @@ public class TriviaMaze extends Application {
 		    			Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
 			    		currentDoor = thisRoom.getRightDoor();
 			    		currentQA = currentDoor.getQuestion_Answer();
+			    		currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
 			    			askQuestion(currentQA);
 			    			playerDirection = "right";
@@ -395,6 +398,7 @@ public class TriviaMaze extends Application {
 		    			Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
 			    		currentDoor = thisRoom.getBottomDoor();
 			    		currentQA = currentDoor.getQuestion_Answer();
+			    		currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
 			    			askQuestion(currentQA);
 			    			playerDirection = "down";

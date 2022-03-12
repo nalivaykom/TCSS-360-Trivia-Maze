@@ -1,12 +1,18 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Random;
+
+import org.sqlite.SQLiteDataSource;
 
 public class Question_Answer {
 
-	private static String[] questions = new String[51];
-	private static String[] questionType = new String[51];
-	private static String[] answer = new String[51];
-	int temp;
+	//private static String[] questions = new String[51];
+	//private static String[] questionType = new String[51];
+	//private static String[] answer = new String[51];
 	
+	/*
 	Question_Answer() {
 		questionType[0] = "Short Answer";
 		questions[0] = "What is the highest number of pets that can be stored in the Menagerie of a player-owned house";
@@ -239,29 +245,59 @@ public class Question_Answer {
 		Random r = new Random();
 		temp = r.nextInt(51); //creates an int between 0-35
 		
+	}
+	*/
+	private static String question = new String();
+	private static String questionType = new String();
+	private static String answer = new String();
+	private static int temp;
+	Question_Answer() {
 		
-		/*
-		double temp1 = Math.random();
-		if (temp1 < 0.3333333) {
-			temp = 0;
-		} else if (temp1 < 0.6666666) {
-			temp = 1;
-		} else {
-			temp = 2;
-		}
-		*/
+	}
+	
+	void generate() {
+		Random r = new Random();
+		temp = r.nextInt(51); 
+		
+		SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:questions.db");
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+		try ( Connection conn = ds.getConnection();
+	        Statement stmt = conn.createStatement(); ){
+	        String selectQuery = "SELECT * FROM questions WHERE ID=" + String.valueOf(temp);
+	            
+	        ResultSet rs = stmt.executeQuery(selectQuery);
+	            
+	        while ( rs.next() ) {
+	          	question = rs.getString( "QUESTION" );
+		        answer = rs.getString( "ANSWER" );
+		        questionType = rs.getString("TYPE");
+		    
+                System.out.println( "Result: \nQuestion = " + question +
+	                "\nAnswer = " + answer );
+	        }
+	        
+	    } catch ( SQLException e ) {
+	          e.printStackTrace();
+	          System.exit( 0 );
+	    }
 	}
 	
 	String getQuestion() {
-		return questions[temp];
+		return question;
 	}
 	
 	String getQuestionType() {
-		return questionType[temp];
+		return questionType;
 	}
 	
 	String getAnswer() {
-		return answer[temp];
+		return answer;
 	}
 	
 }
