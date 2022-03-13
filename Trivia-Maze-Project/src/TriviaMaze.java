@@ -23,7 +23,14 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
+
+import org.sqlite.SQLiteDataSource;
 
 public class TriviaMaze extends Application {
 
@@ -517,6 +524,7 @@ public class TriviaMaze extends Application {
    
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setRow(currentPlayer.getRow() - 2);
+    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -534,6 +542,7 @@ public class TriviaMaze extends Application {
     		
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setColumn(currentPlayer.getColumn() - 2);
+    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -551,6 +560,7 @@ public class TriviaMaze extends Application {
     		
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setColumn(currentPlayer.getColumn() + 2);
+    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -568,6 +578,7 @@ public class TriviaMaze extends Application {
     		
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setRow(currentPlayer.getRow() + 2);
+    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -581,6 +592,62 @@ public class TriviaMaze extends Application {
     		}
     		break;
     	}
+	}
+	
+	private void setPlayerSQL(int rowVariable, int columnVariable) {
+		SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:players.db");
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+		try ( Connection conn = ds.getConnection();
+		        Statement stmt = conn.createStatement(); ){
+		        String updateQuery = "UPDATE players SET ROW = " + rowVariable + ", COLUMN = " + columnVariable;
+
+		        stmt.executeUpdate(updateQuery);
+
+		  } catch ( SQLException e ) {
+		          e.printStackTrace();
+		          System.exit( 0 );
+		 }
+	}
+	
+	private String[] getPlayerSQL() {
+		SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:players.db");
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+		String selectQuery = "SELECT * FROM players";
+		String name = new String();
+		String row = new String();
+		String column = new String();
+		try ( Connection conn = ds.getConnection();
+	              Statement stmt = conn.createStatement(); ) {
+
+	            ResultSet rs = stmt.executeQuery(selectQuery);
+
+	            while ( rs.next() ) {
+	                name = rs.getString( "NAME" );
+	                row = rs.getString( "ROW" );
+	                column = rs.getString( "COLUMN" );
+
+	                System.out.println( "Info: Player's name = " + name +
+	                    ", row = " + row + ", column = " + column );
+	            }
+	        } catch ( SQLException e ) {
+	            e.printStackTrace();
+	            System.exit( 0 );
+	        }
+		String[] returnArray = {name, row, column};
+		System.out.println(Arrays.toString(returnArray));
+		return returnArray;
 	}
 	
 	public static void main(String[] args) {
