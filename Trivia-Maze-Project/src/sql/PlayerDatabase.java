@@ -21,31 +21,24 @@ public class PlayerDatabase {
 	        System.exit(0);
 	    }
 	
-	    // create question table
-	    String query = "CREATE TABLE IF NOT EXISTS players ( " +
+	    // drop player table if already created
+	    String dropQuery = "DROP TABLE IF EXISTS players";
+	    
+	    // create player table
+	    String createQuery = "CREATE TABLE IF NOT EXISTS players ( " +
 	            "NAME TEXT NOT NULL, "
-	            + "ID INTEGER NOT NULL, "
-	            + "PRIMARY KEY (ID) )";
-	    try ( Connection conn = ds.getConnection();
-	            Statement stmt = conn.createStatement(); ) {
-	          int rv = stmt.executeUpdate( query );
-	          System.out.println( "executeUpdate() returned " + rv );
-	    } catch ( SQLException e ) {
-	          e.printStackTrace();
-	          System.exit( 0 );
-	    }
-	    System.out.println( "Created questions table successfully" );
-	      
-	    //next insert the player information
-        System.out.println( "Attempting to insert two rows into questions table" );
+	            + "ROW INT NOT NULL, "
+	            + "COLUMN INT NOT NULL )";
 
         // String query1 = "INSERT INTO players ( NAME, ID ) VALUES ( 'Joe', 1 )";
-        String query1 = "INSERT INTO players ( NAME) VALUES ('Joe')";
-        //String query2 = "INSERT INTO players ( NAME) VALUES ('Jane')";
+        String query1 = "INSERT INTO players ( NAME, ROW, COLUMN ) VALUES ('Joe', 0, 0)";
 
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
-            int rv = stmt.executeUpdate( query1 );
+        	int rv = stmt.executeUpdate( dropQuery );
+        	rv = stmt.executeUpdate( createQuery );
+	        System.out.println( "executeUpdate() returned " + rv );
+            rv = stmt.executeUpdate( query1 );
             System.out.println( "1st executeUpdate() returned " + rv ); 
 //            rv = stmt.executeUpdate( query2 );
 //            System.out.println( "2nd executeUpdate() returned " + rv );
@@ -58,21 +51,22 @@ public class PlayerDatabase {
         
         //now query the database table for all its contents and display the results
         System.out.println( "Selecting all rows from test table" );
-        query = "SELECT * FROM players";
+        String selectQuery = "SELECT * FROM players";
 
         try ( Connection conn = ds.getConnection();
               Statement stmt = conn.createStatement(); ) {
             
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet rs = stmt.executeQuery(selectQuery);
             
             //walk through each 'row' of results, grab data by column/field name
             // and print it
             while ( rs.next() ) {
                 String name = rs.getString( "NAME" );
-                String id = rs.getString( "ID" );
+                String row = rs.getString( "ROW" );
+                String column = rs.getString( "COLUMN" );
 
                 System.out.println( "Info: Player's name = " + name +
-                    ", Id = " + id );
+                    ", row = " + row + ", column = " + column );
             }
         } catch ( SQLException e ) {
             e.printStackTrace();
