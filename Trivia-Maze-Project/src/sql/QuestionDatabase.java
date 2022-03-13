@@ -22,7 +22,10 @@ public class QuestionDatabase {
 	        e.printStackTrace();
 	        System.exit(0);
 	    }
-	
+	    
+	    // drop question table if already created
+	    String dropQuery = "DROP TABLE IF EXISTS questions";
+	    
 	    // create question table
 	    String createQuery = "CREATE TABLE IF NOT EXISTS questions ( " +
 	    		"ID INTEGER NOT NULL, " +
@@ -187,13 +190,11 @@ public class QuestionDatabase {
 	    insertQuery = "INSERT INTO questions ( QUESTION, ANSWER, TYPE ) VALUES ( 'How many fairy ring codes are there?', '64', 'Short Answer' )";
 	    insertQueries[50] = insertQuery;
 	    
-	    System.out.println( "Selecting all rows from test table" );
-	    String selectQuery = "SELECT * FROM questions";
 	    
 	    try ( Connection conn = ds.getConnection();
 			  Statement stmt = conn.createStatement(); ){
-		       
-	    	  int rv = stmt.executeUpdate( createQuery );
+	    	  int rv = stmt.executeUpdate( dropQuery );
+	    	  rv = stmt.executeUpdate( createQuery );
 	          System.out.println( "executeUpdate() returned " + rv );
 	          
 	          for (int i = 0; i < insertQueries.length; i++) {
@@ -202,6 +203,9 @@ public class QuestionDatabase {
 		          System.out.println( "Number " + numb +  " executeUpdate() returned " + rv );
 	          }
 	          
+	          System.out.println( "Selecting all rows from test table" );
+	  	      String selectQuery = "SELECT * FROM questions";
+	  	    
 	          ResultSet rs = stmt.executeQuery(selectQuery);
 	            
 	            //walk through each 'row' of results, grab data by column/field name
@@ -217,6 +221,7 @@ public class QuestionDatabase {
 	          e.printStackTrace();
 	          System.exit( 0 );
 	    }
+	    
 	    
     }
 
