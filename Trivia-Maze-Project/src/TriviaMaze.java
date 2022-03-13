@@ -65,6 +65,7 @@ public class TriviaMaze extends Application {
 	VBox fieldAndEnterBox;
 	HBox abcdButtonsBox;
 	HBox trueFalseButtonsBox;
+	String[] playerDataArray;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -536,6 +537,7 @@ public class TriviaMaze extends Application {
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
     		}
+    		playerDataArray = getPlayerSQL();
     		break;
     		
     	case "left":
@@ -554,6 +556,7 @@ public class TriviaMaze extends Application {
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
     		}
+    		playerDataArray = getPlayerSQL();
     		break;
     		
     	case "right":
@@ -572,6 +575,7 @@ public class TriviaMaze extends Application {
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
     		}
+    		playerDataArray = getPlayerSQL();
     		break;
     	
     	case "down":
@@ -590,6 +594,8 @@ public class TriviaMaze extends Application {
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
     		}
+    		playerDataArray = getPlayerSQL();
+    	
     		break;
     	}
 	}
@@ -616,6 +622,7 @@ public class TriviaMaze extends Application {
 	}
 	
 	private String[] getPlayerSQL() {
+		System.out.println("its working");
 		SQLiteDataSource ds = null;
 		try {
             ds = new SQLiteDataSource();
@@ -646,6 +653,7 @@ public class TriviaMaze extends Application {
 	            System.exit( 0 );
 	        }
 		String[] returnArray = {name, row, column};
+		
 		System.out.println(Arrays.toString(returnArray));
 		return returnArray;
 	}
