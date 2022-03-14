@@ -57,6 +57,15 @@ public class TriviaMaze extends Application {
 	Button downButton;
 	TextArea textArea;
 	TextField textField;
+	TextArea helpTextArea;
+	TextField nameTextField;
+	Button setNameButton;
+	Button submitButton;
+	Button saveButton;
+	Button loadButton;
+	VBox setNameFieldAndSubmitBox;
+	HBox loadSaveBox;
+	VBox menuBox;
 	String userInput;
 	String multipleChoiceSelection;
 	Room currentRoom;
@@ -65,6 +74,7 @@ public class TriviaMaze extends Application {
 	VBox fieldAndEnterBox;
 	HBox abcdButtonsBox;
 	HBox trueFalseButtonsBox;
+	HBox allButtonsBox;
 	String[] playerDataArray;
 	
 	@Override
@@ -74,12 +84,120 @@ public class TriviaMaze extends Application {
 		
 		primaryStage.setTitle("RuneScape Trivia Maze");
 		
+		helpTextArea = new TextArea();
+		helpTextArea.setMinSize(300, 250);
+		helpTextArea.setMaxSize(300, 250);
+		helpTextArea.setEditable(false);
+		helpTextArea.setWrapText(true);
+		helpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
+				+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
+				+ "or down. The game will prompt you with a question and give you buttons to "
+				+ "press. Answer the questions correctly to move. Getting to the red circle in "
+				+ "the bottom right corner is the objective. \n\nGood luck!");
+		
+		nameTextField = new TextField();
+		nameTextField.setMinSize(300, 30);
+		nameTextField.setMaxSize(300, 30);
+		
+		submitButton = new Button();
+		submitButton.setText("Submit");
+		submitButton.setMinSize(100, 25);
+		submitButton.setMaxSize(100, 25);
+		submitButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	
+		        currentPlayer.setName(nameTextField.getText());
+		    	setPlayerSQLName(nameTextField.getText());
+		    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+		    	nameTextField.clear();
+		    	setNameFieldAndSubmitBox.setVisible(false);
+		    	
+		    }
+		});
+		
+		setNameFieldAndSubmitBox = new VBox(10);
+		setNameFieldAndSubmitBox.setAlignment(Pos.CENTER);
+		setNameFieldAndSubmitBox.getChildren().addAll(nameTextField, submitButton);
+		setNameFieldAndSubmitBox.setVisible(false);
+		
+		setNameButton = new Button();
+		setNameButton.setText("Set Name");
+		setNameButton.setMinSize(100, 25);
+		setNameButton.setMaxSize(100, 25);
+		setNameButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	setNameFieldAndSubmitBox.setVisible(true);  
+		    }
+		});
+		
+		saveButton = new Button();
+		saveButton.setText("Save");
+		saveButton.setMinSize(100, 25);
+		saveButton.setMaxSize(100, 25);
+		saveButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	
+		        setPlayerSQL(currentPlayer.getName(), currentPlayer.getRow(), currentPlayer.getColumn());
+		        System.out.println("save row: " + currentPlayer.getRow());
+	            System.out.println("save column" + currentPlayer.getColumn());
+		        helpTextArea.setText("Save Successful");
+		        /*
+		        try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				*/
+		        helpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
+						+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
+						+ "or down. The game will prompt you with a question and give you buttons to "
+						+ "press. Answer the questions correctly to move. Getting to the red circle in "
+						+ "the bottom right corner is the objective. \n\nGood luck!");
+		    	
+		    }
+		});
+		
+		loadButton = new Button();
+		loadButton.setText("Load");
+		loadButton.setMinSize(100, 25);
+		loadButton.setMaxSize(100, 25);
+		loadButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	
+		    	removePlayer(grid, currentPlayer); 
+	            playerDataArray = getPlayerSQL();
+	            currentPlayer.setName(playerDataArray[0]);
+	            currentPlayer.setRow(Integer.parseInt(playerDataArray[1]));
+	            System.out.println("load row: " + currentPlayer.getRow());
+	            System.out.println("load column" + currentPlayer.getColumn());
+	            currentPlayer.setColumn(Integer.parseInt(playerDataArray[2]));
+	    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+		    	
+		    }
+		});
+		
+		loadSaveBox = new HBox(25);
+		loadSaveBox.getChildren().addAll(saveButton, loadButton);
+		loadSaveBox.setAlignment(Pos.CENTER);
+		
+		VBox rightVBox = new VBox(40);
+		rightVBox.setAlignment(Pos.CENTER);
+		rightVBox.getChildren().addAll(helpTextArea, setNameButton, setNameFieldAndSubmitBox, loadSaveBox);
+		
 		textArea = new TextArea();
 		textArea.setMinSize(300, 250);
 		textArea.setMaxSize(300, 250);
 		textArea.setEditable(false);
 		textArea.setWrapText(true);
-		textArea.setText("Welcome to the RuneScape Trivia Maze!");
 		
 		textField = new TextField();
 		textField.setMinSize(300, 30);
@@ -102,6 +220,7 @@ public class TriviaMaze extends Application {
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
 					abcdButtonsBox.setVisible(false);
+					allButtonsBox.setVisible(true);
 				}
 			}	
 		});
@@ -124,6 +243,7 @@ public class TriviaMaze extends Application {
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
 					abcdButtonsBox.setVisible(false);
+					allButtonsBox.setVisible(true);
 				}
 			}
 			
@@ -147,6 +267,7 @@ public class TriviaMaze extends Application {
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
 					abcdButtonsBox.setVisible(false);
+					allButtonsBox.setVisible(true);
 				}
 			}
 			
@@ -170,6 +291,7 @@ public class TriviaMaze extends Application {
 		    			textArea.appendText("Wrong! This door is now locked");
 					}
 					abcdButtonsBox.setVisible(false);
+					allButtonsBox.setVisible(true);
 				}
 			}
 			
@@ -182,7 +304,8 @@ public class TriviaMaze extends Application {
 		enterButton.setMaxSize(100, 25);
 		enterButton.setOnAction(new EventHandler<ActionEvent>() {
 		
-		    @Override public void handle(ActionEvent e) {
+		    @Override 
+		    public void handle(ActionEvent e) {
 		    	userInput = textField.getText();
 		    	if (currentQType.equals("Short Answer") && (enterUnanswered == true)) { 
 		    		if (gotItRight(currentQA)) {
@@ -195,6 +318,7 @@ public class TriviaMaze extends Application {
 		    			textArea.appendText("Wrong! This door is now locked");
 		    		}
 		    		fieldAndEnterBox.setVisible(false);
+		    		allButtonsBox.setVisible(true);
 		    	} 
 		    }
 		});
@@ -226,6 +350,7 @@ public class TriviaMaze extends Application {
 		    			textArea.appendText("Wrong! This door is now locked");
 		    		}
 		    		trueFalseButtonsBox.setVisible(false);
+		    		allButtonsBox.setVisible(true);
 		    	} 
 		    }
 		});
@@ -248,6 +373,7 @@ public class TriviaMaze extends Application {
 		    			textArea.appendText("Wrong! This door is now locked");
 		    		}
 		    		trueFalseButtonsBox.setVisible(false);
+		    		allButtonsBox.setVisible(true);
 		    	} 
 		    }
 		});
@@ -313,8 +439,9 @@ public class TriviaMaze extends Application {
 		    			Room upperRoom = maze.getRoom(currentPlayer.getRow() - 2, currentPlayer.getColumn());
 			    		currentDoor = upperRoom.getBottomDoor();
 			    		currentQA = currentDoor.getQuestion_Answer();
-			    		currentQA.generate();
+			    	    currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
+			    			allButtonsBox.setVisible(false);
 			    			askQuestion(currentQA);
 			    			playerDirection = "up";
 			    		} else {
@@ -346,6 +473,7 @@ public class TriviaMaze extends Application {
 			    		currentQA = currentDoor.getQuestion_Answer();
 			    		currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
+			    			allButtonsBox.setVisible(false);
 			    			askQuestion(currentQA);
 			    			playerDirection = "left";
 			    		} else {
@@ -377,6 +505,7 @@ public class TriviaMaze extends Application {
 			    		currentQA = currentDoor.getQuestion_Answer();
 			    		currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
+			    			allButtonsBox.setVisible(false);
 			    			askQuestion(currentQA);
 			    			playerDirection = "right";
 			    		} else {
@@ -408,6 +537,7 @@ public class TriviaMaze extends Application {
 			    		currentQA = currentDoor.getQuestion_Answer();
 			    		currentQA.generate();
 			    		if (!currentDoor.getPermLockStat()) {
+			    			allButtonsBox.setVisible(false);
 			    			askQuestion(currentQA);
 			    			playerDirection = "down";
 			    		} else {
@@ -427,7 +557,7 @@ public class TriviaMaze extends Application {
 	
 		VBox upDownButtonsBox = new VBox(25);
 		upDownButtonsBox.setAlignment(Pos.CENTER);
-		HBox allButtonsBox = new HBox();
+		allButtonsBox = new HBox();
 		upDownButtonsBox.getChildren().addAll(upButton, downButton);
 		allButtonsBox.getChildren().addAll(leftButton, upDownButtonsBox, rightButton);
 		allButtonsBox.setMinSize(75, 150);
@@ -445,13 +575,13 @@ public class TriviaMaze extends Application {
 		
 		HBox leftAndRightVBoxes = new HBox(25);
 		leftAndRightVBoxes.setAlignment(Pos.CENTER);
-		leftAndRightVBoxes.getChildren().addAll(leftVBox, gridAndButtonsBox);
+		leftAndRightVBoxes.getChildren().addAll(leftVBox, gridAndButtonsBox, rightVBox);
 		
 		
 		Pane.getChildren().add(leftAndRightVBoxes);
 		StackPane.setAlignment(leftAndRightVBoxes, Pos.CENTER);
 		
-		Scene scene = new Scene(Pane, 800, 650);
+		Scene scene = new Scene(Pane, 1100, 650);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -498,6 +628,7 @@ public class TriviaMaze extends Application {
 		}
 		textArea.clear();
 		textArea.appendText(qA.getQuestion());
+		
 	}
 	
 	private boolean gotItRight(Question_Answer qA) {
@@ -522,10 +653,10 @@ public class TriviaMaze extends Application {
 	private void movePlayer() {
 		switch (playerDirection) {
     	case "up":
-   
+
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setRow(currentPlayer.getRow() - 2);
-    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
+    		setPlayerSQL(currentPlayer.getName(), currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -533,6 +664,7 @@ public class TriviaMaze extends Application {
     		enterUnanswered = false;
     		trueFalseUnanswered = false;
     		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
@@ -544,7 +676,6 @@ public class TriviaMaze extends Application {
     		
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setColumn(currentPlayer.getColumn() - 2);
-    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -552,18 +683,17 @@ public class TriviaMaze extends Application {
     		enterUnanswered = false;
     		trueFalseUnanswered = false;
     		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
     		}
-    		playerDataArray = getPlayerSQL();
     		break;
     		
     	case "right":
     		
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setColumn(currentPlayer.getColumn() + 2);
-    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -571,18 +701,17 @@ public class TriviaMaze extends Application {
     		enterUnanswered = false;
     		trueFalseUnanswered = false;
     		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
     		}
-    		playerDataArray = getPlayerSQL();
     		break;
     	
     	case "down":
     		
     		removePlayer(grid, currentPlayer); 
     		currentPlayer.setRow(currentPlayer.getRow() + 2);
-    		setPlayerSQL(currentPlayer.getRow(), currentPlayer.getColumn());
     		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
     		textArea.clear();
 			textArea.appendText("Correct!");
@@ -590,18 +719,17 @@ public class TriviaMaze extends Application {
     		enterUnanswered = false;
     		trueFalseUnanswered = false;
     		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
+    			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
     			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
     		}
-    		playerDataArray = getPlayerSQL();
-    	
     		break;
     	}
 	}
 	
-	private void setPlayerSQL(int rowVariable, int columnVariable) {
-		SQLiteDataSource ds = null;
+    private void setPlayerSQL(String nameVariable, int rowVariable, int columnVariable) {
+	    SQLiteDataSource ds = null;
 		try {
             ds = new SQLiteDataSource();
             ds.setUrl("jdbc:sqlite:players.db");
@@ -610,19 +738,40 @@ public class TriviaMaze extends Application {
             System.exit(0);
         }
 		try ( Connection conn = ds.getConnection();
-		        Statement stmt = conn.createStatement(); ){
-		        String updateQuery = "UPDATE players SET ROW = " + rowVariable + ", COLUMN = " + columnVariable;
+		    Statement stmt = conn.createStatement(); ){
+		    String updateQuery = "UPDATE players SET NAME = '" + nameVariable + "',  ROW = " + rowVariable + ", COLUMN = " + columnVariable;
+		    System.out.println(updateQuery);
+		    stmt.executeUpdate(updateQuery);
 
-		        stmt.executeUpdate(updateQuery);
+	    } catch ( SQLException e ) {
+		      e.printStackTrace();
+		      System.exit( 0 );
+	    }
+	}
+    
+    private void setPlayerSQLName(String nameVariable) {
+	    SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:players.db");
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+		try ( Connection conn = ds.getConnection();
+		    Statement stmt = conn.createStatement(); ){
+		    String updateQuery = "UPDATE players SET NAME = '" + nameVariable + "'";
+		    //System.out.println(updateQuery);
+		    stmt.executeUpdate(updateQuery);
 
-		  } catch ( SQLException e ) {
-		          e.printStackTrace();
-		          System.exit( 0 );
-		 }
+	    } catch ( SQLException e ) {
+		      e.printStackTrace();
+		      System.exit( 0 );
+	    }
 	}
 	
 	private String[] getPlayerSQL() {
-		System.out.println("its working");
+		//System.out.println("its working");
 		SQLiteDataSource ds = null;
 		try {
             ds = new SQLiteDataSource();
@@ -642,11 +791,12 @@ public class TriviaMaze extends Application {
 
 	            while ( rs.next() ) {
 	                name = rs.getString( "NAME" );
+	                //System.out.println(name);
 	                row = rs.getString( "ROW" );
 	                column = rs.getString( "COLUMN" );
 
-	                System.out.println( "Info: Player's name = " + name +
-	                    ", row = " + row + ", column = " + column );
+	                //System.out.println( "Info: Player's name = " + name +
+	                   // ", row = " + row + ", column = " + column );
 	            }
 	        } catch ( SQLException e ) {
 	            e.printStackTrace();
@@ -654,7 +804,7 @@ public class TriviaMaze extends Application {
 	        }
 		String[] returnArray = {name, row, column};
 		
-		System.out.println(Arrays.toString(returnArray));
+		//System.out.println(Arrays.toString(returnArray));
 		return returnArray;
 	}
 	
