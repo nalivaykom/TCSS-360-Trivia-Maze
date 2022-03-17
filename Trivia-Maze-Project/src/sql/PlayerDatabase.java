@@ -44,7 +44,7 @@ public class PlayerDatabase {
 //            System.out.println( "2nd executeUpdate() returned " + rv );
             
         } catch ( SQLException e ) {
-            e.printStackTrace();
+            e.printStackTrace(); 
             System.exit( 0 );
         }
         

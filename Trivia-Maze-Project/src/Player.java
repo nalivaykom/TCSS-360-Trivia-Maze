@@ -29,6 +29,10 @@ public class Player {
 	
 	protected void setName(String theName) {
 		name = theName;
+		text.setText(name);
+		myPlayerShape = new StackPane();
+		myPlayerShape.getChildren().addAll(circle, text);
+		myPlayerShape.setVisible(true);
 	}
 	
 	protected void setRow(int theRow) {
