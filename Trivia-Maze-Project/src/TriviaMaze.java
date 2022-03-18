@@ -63,6 +63,7 @@ public class TriviaMaze extends Application {
 	Button submitButton;
 	Button saveButton;
 	Button loadButton;
+	Button restartButton;
 	VBox setNameFieldAndSubmitBox;
 	HBox loadSaveBox;
 	VBox menuBox;
@@ -109,7 +110,6 @@ public class TriviaMaze extends Application {
 		    public void handle(ActionEvent e) {
 		    	
 		        currentPlayer.setName(nameTextField.getText());
-		    	setPlayerSQLName(nameTextField.getText());
 		    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
 		    	nameTextField.clear();
 		    	setNameFieldAndSubmitBox.setVisible(false);
@@ -185,13 +185,36 @@ public class TriviaMaze extends Application {
 		    }
 		});
 		
+		restartButton = new Button();
+		restartButton.setText("Restart");
+		restartButton.setMinSize(100, 25);
+		restartButton.setMaxSize(100, 25);
+		restartButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override 
+			public void handle(ActionEvent e) {
+		    	helpTextArea.clear();
+		    	helpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
+						+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
+						+ "or down. The game will prompt you with a question and give you buttons to "
+						+ "press. Answer the questions correctly to move. Getting to the red circle in "
+						+ "the bottom right corner is the objective. \n\nGood luck!");
+		    	currentPlayer.setName("Player");
+		    	currentPlayer.setRow(0);
+		    	currentPlayer.setColumn(0);
+		    	setPlayerSQL("Player", 0, 0);
+		    	removePlayer(grid, currentPlayer);
+	    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+		    }
+		});
+		
 		loadSaveBox = new HBox(25);
 		loadSaveBox.getChildren().addAll(saveButton, loadButton);
 		loadSaveBox.setAlignment(Pos.CENTER);
 		
 		VBox rightVBox = new VBox(40);
 		rightVBox.setAlignment(Pos.CENTER);
-		rightVBox.getChildren().addAll(helpTextArea, setNameButton, setNameFieldAndSubmitBox, loadSaveBox);
+		rightVBox.getChildren().addAll(helpTextArea, setNameButton, setNameFieldAndSubmitBox, loadSaveBox, restartButton);
 		
 		textArea = new TextArea();
 		textArea.setMinSize(300, 250);
@@ -635,7 +658,7 @@ public class TriviaMaze extends Application {
 		boolean gotItRight = false;
 		String rightAnswer = qA.getAnswer();
 		String userAnswer = textField.getText();
-		if (rightAnswer.equals(userAnswer)) {
+		if (rightAnswer.equalsIgnoreCase(userAnswer)) {
 			gotItRight = true;
 		}
 		return gotItRight;
@@ -667,7 +690,8 @@ public class TriviaMaze extends Application {
     			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
-    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    			helpTextArea.clear();
+    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
     		playerDataArray = getPlayerSQL();
     		break;
@@ -686,7 +710,8 @@ public class TriviaMaze extends Application {
     			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
-    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    			helpTextArea.clear();
+    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
     		break;
     		
@@ -704,7 +729,8 @@ public class TriviaMaze extends Application {
     			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
-    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    			helpTextArea.clear();
+    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
     		break;
     	
@@ -722,7 +748,8 @@ public class TriviaMaze extends Application {
     			setPlayerSQL("Player", 0, 0);
     			notAtEnd = false;
     			textArea.clear();
-    			textArea.appendText("Congratulations, you beat the Runescape Trivia Maze!");
+    			helpTextArea.clear();
+    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
     		break;
     	}

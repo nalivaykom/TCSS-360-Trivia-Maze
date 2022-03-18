@@ -139,7 +139,7 @@ public class QuestionDatabase {
 	    insertQuery = "INSERT INTO questions ( QUESTION, ANSWER, TYPE ) VALUES ( 'What is the minimum fishing level needed to complete the morytania Elite Diary?', '91', 'Short Answer' )";
 	    insertQueries[33] = insertQuery;
 
-	    insertQuery = "INSERT INTO questions ( QUESTION, ANSWER, TYPE ) VALUES ( 'Which of the following items would a player least likely have\na: 3rd Age Pick Axe \nb: Twisted Bow \nc: Elysian Spirit Shield /nd: Burnt Oomlie wrap', 'd', 'abcd' )";
+	    insertQuery = "INSERT INTO questions ( QUESTION, ANSWER, TYPE ) VALUES ( 'Which of the following items would a player least likely have\na: 3rd Age Pick Axe \nb: Twisted Bow \nc: Elysian Spirit Shield \nd: Burnt Oomlie wrap', 'd', 'abcd' )";
 	    insertQueries[34] = insertQuery;
 
 	    insertQuery = "INSERT INTO questions ( QUESTION, ANSWER, TYPE ) VALUES ( 'How many steel dragons reside in the soul wars slayer dungeon?', '3', 'Short Answer' )";
