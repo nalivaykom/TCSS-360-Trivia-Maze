@@ -202,8 +202,6 @@ public class QuestionDatabase {
 	          for (int i = 0; i < insertQueries.length; i++) {
 		          stmt.executeUpdate( insertQueries[i] );
 	          }
-	          
-	          System.out.println( "Selecting all rows from test table" );
 	    } catch ( SQLException e ) {
 	          e.printStackTrace();
 	          System.exit( 0 );

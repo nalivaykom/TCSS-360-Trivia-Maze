@@ -1,7 +1,7 @@
 public class Room {
     
-    Door myRightDoor;
-    Door myBottomDoor;
+    private Door myRightDoor;
+    private Door myBottomDoor;
 	
 	Room() {
         myRightDoor = new Door();
