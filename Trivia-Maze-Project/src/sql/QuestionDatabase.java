@@ -8,6 +8,12 @@ import java.sql.Statement;
 
 import org.sqlite.SQLiteDataSource;
 
+/**
+ * This class creates the question database.
+ * 
+ * @author Bao Nguyen
+ * @version Winter 2022
+ */
 public class QuestionDatabase {
 	
     public static void main(String[] args) {
@@ -33,9 +39,6 @@ public class QuestionDatabase {
 	            "ANSWER TEXT NOT NULL, " +
 	            "TYPE TEXT NOT NULL, " +
 	            "PRIMARY KEY (ID) )";
-	      
-	    //next insert two rows of data
-	    System.out.println( "Attempting to insert two questions into the table" );
 	    
 	    String insertQuery = "INSERT INTO questions ( QUESTION, ANSWER, TYPE ) VALUES ( 'What is the highest number of pets that can be stored in the Menagerie of a player-owned house', '52', 'Short Answer' )";
 	    insertQueries[0] = insertQuery;
@@ -193,30 +196,14 @@ public class QuestionDatabase {
 	    
 	    try ( Connection conn = ds.getConnection();
 			  Statement stmt = conn.createStatement(); ){
-	    	  int rv = stmt.executeUpdate( dropQuery );
-	    	  rv = stmt.executeUpdate( createQuery );
-	          System.out.println( "executeUpdate() returned " + rv );
+	    	  stmt.executeUpdate( dropQuery );
+	    	  stmt.executeUpdate( createQuery );
 	          
 	          for (int i = 0; i < insertQueries.length; i++) {
-		          rv = stmt.executeUpdate( insertQueries[i] );
-		          int numb = i + 1;
-		          System.out.println( "Number " + numb +  " executeUpdate() returned " + rv );
+		          stmt.executeUpdate( insertQueries[i] );
 	          }
 	          
 	          System.out.println( "Selecting all rows from test table" );
-	  	      String selectQuery = "SELECT * FROM questions";
-	  	    
-	          ResultSet rs = stmt.executeQuery(selectQuery);
-	            
-	            //walk through each 'row' of results, grab data by column/field name
-	            // and print it
-	            while ( rs.next() ) {
-	                String question = rs.getString( "QUESTION" );
-	                String answer = rs.getString( "ANSWER" );
-
-	                System.out.println( "Result: \nQuestion = " + question +
-	                    "\nAnswer = " + answer );
-	            }
 	    } catch ( SQLException e ) {
 	          e.printStackTrace();
 	          System.exit( 0 );
