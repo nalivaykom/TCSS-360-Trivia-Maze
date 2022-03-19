@@ -5,13 +5,13 @@ import javafx.scene.text.Text;
 
 public class Player {
 	
-	String myName;
-	int myRow;
-	int myColumn;
+	private String myName;
+	private int myRow;
+	private int myColumn;
 	
-	final Circle myCircle = new Circle(0,0,10);
-	final Text myText = new Text ();
-	static StackPane myPlayerShape;
+	private final Circle myCircle = new Circle(0,0,10);
+	private final Text myText = new Text ();
+	private static StackPane myPlayerShape;
 	
 	Player (String theName, int theRow, int theColumn) {
 		myPlayerShape = new StackPane();
