@@ -1,7 +1,3 @@
-import java.util.*;
-
-
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -9,55 +5,47 @@ import javafx.scene.shape.Shape;
 
 public class Door {
 	
-	private boolean permLocked;
-	private boolean locked;
-	private Rectangle rectangle = new Rectangle(15,30);
-	private Question_Answer qA;
+	private boolean myPermLocked;
+	private Rectangle myRectangle = new Rectangle(15,30);
+	private Question_Answer myQA;
 
 	Door() {
-		permLocked = false;
-		locked = true;
-		rectangle = setToDoor();
-		qA = new Question_Answer();
+		myPermLocked = false;
+		myRectangle = setToDoor();
+		myQA = new Question_Answer();
 	}
 	
-	/*
-	 * we will only ever lock the door permanently
-	 * once permLocked, it can never be opened.
-	 */
-	protected void setPermLocked() {
-		permLocked = true;
-		this.rectangle = setToLock();
+	void setPermLocked(boolean theBool) {
+		myPermLocked = theBool;
+		if (theBool) {
+			myRectangle = setToLock();
+		}
+		if (!theBool) {
+			myRectangle = setToDoor();
+		}
 	}
 	
-	protected void setLocked(boolean theLocked) {
-		locked = theLocked;
+	boolean getPermLockStat() {
+		return myPermLocked;
 	}
 	
-	protected boolean getLockStat() {
-		return locked;
+	Shape getShape() {
+		return myRectangle;
 	}
 	
-	protected boolean getPermLockStat() {
-		return permLocked;
-	}
-	
-	protected Shape getShape() {
-		return this.rectangle;
+	Question_Answer getQuestion_Answer() {
+		return myQA;
 	}
 	
 	private Rectangle setToDoor() {
 		Image img = new Image("door.jpg");
-		this.rectangle.setFill(new ImagePattern(img));
-		return this.rectangle;
+		myRectangle.setFill(new ImagePattern(img));
+		return myRectangle;
 	}
 	
 	private Rectangle setToLock() {
 		Image img = new Image("Lock.jpg");
-		this.rectangle.setFill(new ImagePattern(img));
-		return this.rectangle;
-	}
-	protected Question_Answer getQuestion_Answer() {
-		return this.qA;
+		myRectangle.setFill(new ImagePattern(img));
+		return myRectangle;
 	}
 }

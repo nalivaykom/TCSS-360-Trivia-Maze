@@ -1,26 +1,24 @@
-import java.util.*;
-
 public class Room {
     
-    Door rightDoor;
-    Door bottomDoor;
+    Door myRightDoor;
+    Door myBottomDoor;
 	
-	protected Room() {
-        rightDoor = new Door();
-        bottomDoor = new Door();
+	Room() {
+        myRightDoor = new Door();
+        myBottomDoor = new Door();
 	}
 
-    protected Door getRightDoor() {
-    	return this.rightDoor;
+    Door getRightDoor() {
+    	return myRightDoor;
     }
-	protected void setRightDoorPermLocked() {
-		rightDoor.setPermLocked();
+	void setRightDoorPermLocked(boolean theBool) {
+		myRightDoor.setPermLocked(theBool);
 	}
-	protected Door getBottomDoor() {
-    	return this.bottomDoor;
+	Door getBottomDoor() {
+    	return myBottomDoor;
     }
-	protected void setBottomDoorPermLocked() {
-		bottomDoor.setPermLocked();
+	void setBottomDoorPermLocked(boolean theBool) {
+		myBottomDoor.setPermLocked(theBool);
 	}
 	
 }

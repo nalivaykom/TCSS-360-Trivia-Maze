@@ -5,58 +5,56 @@ import javafx.scene.text.Text;
 
 public class Player {
 	
-	String name;
-	int row;
-	int column;
+	String myName;
+	int myRow;
+	int myColumn;
 	
-	final Circle circle = new Circle(0,0,10);
-	final Text text = new Text ();
+	final Circle myCircle = new Circle(0,0,10);
+	final Text myText = new Text ();
 	static StackPane myPlayerShape;
 	
-	
-	Player(String theName, int theRow, int theColumn) {
+	Player (String theName, int theRow, int theColumn) {
 		myPlayerShape = new StackPane();
 		
-		name = theName;
-		this.row = theRow;
-		this.column = theColumn;
+		myName = theName;
+		myRow = theRow;
+		myColumn = theColumn;
 		
-		circle.setFill(Color.TAN);
-		text.setText(theName);
-		myPlayerShape.getChildren().addAll(circle, text);
+		myCircle.setFill(Color.TAN);
+		myText.setText(theName);
+		myPlayerShape.getChildren().addAll(myCircle, myText);
 		myPlayerShape.setVisible(true);
 	}
 	
-	protected void setName(String theName) {
-		name = theName;
-		text.setText(name);
+	void setName(String theName) {
+		myName = theName;
+		myText.setText(myName);
 		myPlayerShape = new StackPane();
-		myPlayerShape.getChildren().addAll(circle, text);
+		myPlayerShape.getChildren().addAll(myCircle, myText);
 		myPlayerShape.setVisible(true);
 	}
 	
-	protected void setRow(int theRow) {
-		row = theRow;
+	void setRow(int theRow) {
+		myRow = theRow;
 	}
 	
-	protected void setColumn(int theColumn) {
-		column = theColumn;
-	}
-	protected int getRow() {
-		return this.row;
+	void setColumn(int theColumn) {
+		myColumn = theColumn;
 	}
 	
-	protected int getColumn() {
-		return this.column;
+	int getRow() {
+		return myRow;
 	}
 	
-	protected StackPane getShape() {
-		
+	int getColumn() {
+		return myColumn;
+	}
+	
+	StackPane getShape() {
 		return myPlayerShape;
-		
 	}
 	
-	protected String getName() {
-		return name;
+	String getName() {
+		return myName;
 	}
 }

@@ -1,7 +1,4 @@
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.css.CssMetaData;
-import javafx.css.Styleable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -15,412 +12,365 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
 
 import org.sqlite.SQLiteDataSource;
 
 public class TriviaMaze extends Application {
 
-	Maze maze;
-	GridPane grid;
-	Player currentPlayer;
-	Question_Answer currentQA;
-	String currentQType;
-	boolean enterUnanswered;
-	boolean multUnanswered;
-	boolean trueFalseUnanswered;
-	boolean notAtEnd;
-	Door currentDoor;
-	Button aButton;
-	Button bButton;
-	Button cButton;
-	Button dButton;
-	Button enterButton;
-	Button upButton;
-	Button trueButton;
-	Button falseButton;
-	Button leftButton;
-	Button rightButton;
-	Button downButton;
-	TextArea textArea;
-	TextField textField;
-	TextArea helpTextArea;
-	TextField nameTextField;
-	Button setNameButton;
-	Button submitButton;
-	Button saveButton;
-	Button loadButton;
-	Button restartButton;
-	VBox setNameFieldAndSubmitBox;
-	HBox loadSaveBox;
-	VBox menuBox;
-	String userInput;
-	String multipleChoiceSelection;
-	Room currentRoom;
-	Room adjacentRoom;
-	String playerDirection;
-	VBox fieldAndEnterBox;
-	HBox abcdButtonsBox;
-	HBox trueFalseButtonsBox;
-	HBox allButtonsBox;
-	String[] playerDataArray;
+	Maze myMaze;
+	GridPane myGrid;
+	Player myCurrentPlayer;
+	Question_Answer myCurrentQA;
+	String myCurrentQType;
+	boolean myEnterUnanswered;
+	boolean myMultUnanswered;
+	boolean myTrueFalseUnanswered;
+	boolean myNotAtEnd;
+	Door myCurrentDoor;
+	Button myAButton;
+	Button myBButton;
+	Button myCButton;
+	Button myDButton;
+	Button myEnterButton;
+	Button myTrueButton;
+	Button myFalseButton;
+	Button myUpButton;
+	Button myLeftButton;
+	Button myRightButton;
+	Button myDownButton;
+	TextArea myTextArea;
+	TextField myTextField;
+	TextArea myHelpTextArea;
+	TextField myNameTextField;
+	Button mySetNameButton;
+	Button mySubmitButton;
+	Button mySaveButton;
+	Button myLoadButton;
+	Button myRestartButton;
+	VBox mySetNameFieldAndSubmitBox;
+	HBox myLoadSaveBox;
+	String myMultipleChoiceSelection;
+	Room myCurrentRoom;
+	String myPlayerDirection;
+	VBox myFieldAndEnterBox;
+	HBox myabcdButtonsBox;
+	HBox myTrueFalseButtonsBox;
+	HBox myAllButtonsBox;
+	String[] myPlayerDataArray;
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		maze = new Maze();
-		
 		primaryStage.setTitle("RuneScape Trivia Maze");
 		
-		helpTextArea = new TextArea();
-		helpTextArea.setMinSize(300, 250);
-		helpTextArea.setMaxSize(300, 250);
-		helpTextArea.setEditable(false);
-		helpTextArea.setWrapText(true);
-		helpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
+		myMaze = new Maze();
+		
+		myHelpTextArea = new TextArea();
+		myHelpTextArea.setMinSize(300, 250);
+		myHelpTextArea.setMaxSize(300, 250);
+		myHelpTextArea.setEditable(false);
+		myHelpTextArea.setWrapText(true);
+		myHelpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
 				+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
 				+ "or down. The game will prompt you with a question and give you buttons to "
 				+ "press. Answer the questions correctly to move. Getting to the red circle in "
 				+ "the bottom right corner is the objective. \n\nGood luck!");
 		
-		nameTextField = new TextField();
-		nameTextField.setMinSize(300, 30);
-		nameTextField.setMaxSize(300, 30);
+		myNameTextField = new TextField();
+		myNameTextField.setMinSize(300, 30);
+		myNameTextField.setMaxSize(300, 30);
 		
-		submitButton = new Button();
-		submitButton.setText("Submit");
-		submitButton.setMinSize(100, 25);
-		submitButton.setMaxSize(100, 25);
-		submitButton.setOnAction(new EventHandler<ActionEvent>() {
-		
-		    @Override 
-		    public void handle(ActionEvent e) {
-		    	
-		        currentPlayer.setName(nameTextField.getText());
-		    	grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-		    	nameTextField.clear();
-		    	setNameFieldAndSubmitBox.setVisible(false);
-		    	
-		    }
-		});
-		
-		setNameFieldAndSubmitBox = new VBox(10);
-		setNameFieldAndSubmitBox.setAlignment(Pos.CENTER);
-		setNameFieldAndSubmitBox.getChildren().addAll(nameTextField, submitButton);
-		setNameFieldAndSubmitBox.setVisible(false);
-		
-		setNameButton = new Button();
-		setNameButton.setText("Set Name");
-		setNameButton.setMinSize(100, 25);
-		setNameButton.setMaxSize(100, 25);
-		setNameButton.setOnAction(new EventHandler<ActionEvent>() {
-		
-		    @Override 
-		    public void handle(ActionEvent e) {
-		    	setNameFieldAndSubmitBox.setVisible(true);  
-		    }
-		});
-		
-		saveButton = new Button();
-		saveButton.setText("Save");
-		saveButton.setMinSize(100, 25);
-		saveButton.setMaxSize(100, 25);
-		saveButton.setOnAction(new EventHandler<ActionEvent>() {
+		mySubmitButton = new Button();
+		mySubmitButton.setText("Submit");
+		mySubmitButton.setMinSize(100, 25);
+		mySubmitButton.setMaxSize(100, 25);
+		mySubmitButton.setOnAction(new EventHandler<ActionEvent>() {
 		
 		    @Override 
 		    public void handle(ActionEvent e) {
 		    	
-		        setPlayerSQL(currentPlayer.getName(), currentPlayer.getRow(), currentPlayer.getColumn());
-		        System.out.println("save row: " + currentPlayer.getRow());
-	            System.out.println("save column" + currentPlayer.getColumn());
-		        helpTextArea.setText("Save Successful");
-		        /*
-		        try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				*/
-		        helpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
-						+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
-						+ "or down. The game will prompt you with a question and give you buttons to "
-						+ "press. Answer the questions correctly to move. Getting to the red circle in "
-						+ "the bottom right corner is the objective. \n\nGood luck!");
+		        myCurrentPlayer.setName(myNameTextField.getText());
+		    	myGrid.add(myCurrentPlayer.getShape(), myCurrentPlayer.getColumn(), myCurrentPlayer.getRow());
+		    	myNameTextField.clear();
+		    	mySetNameFieldAndSubmitBox.setVisible(false);
 		    	
 		    }
 		});
 		
-		loadButton = new Button();
-		loadButton.setText("Load");
-		loadButton.setMinSize(100, 25);
-		loadButton.setMaxSize(100, 25);
-		loadButton.setOnAction(new EventHandler<ActionEvent>() {
+		mySetNameFieldAndSubmitBox = new VBox(10);
+		mySetNameFieldAndSubmitBox.setAlignment(Pos.CENTER);
+		mySetNameFieldAndSubmitBox.getChildren().addAll(myNameTextField, mySubmitButton);
+		mySetNameFieldAndSubmitBox.setVisible(false);
+		
+		mySetNameButton = new Button();
+		mySetNameButton.setText("Set Name");
+		mySetNameButton.setMinSize(100, 25);
+		mySetNameButton.setMaxSize(100, 25);
+		mySetNameButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	mySetNameFieldAndSubmitBox.setVisible(true);  
+		    }
+		});
+		
+		mySaveButton = new Button();
+		mySaveButton.setText("Save");
+		mySaveButton.setMinSize(100, 25);
+		mySaveButton.setMaxSize(100, 25);
+		mySaveButton.setOnAction(new EventHandler<ActionEvent>() {
 		
 		    @Override 
 		    public void handle(ActionEvent e) {
 		    	
-		    	removePlayer(grid, currentPlayer); 
-	            playerDataArray = getPlayerSQL();
-	            currentPlayer.setName(playerDataArray[0]);
-	            currentPlayer.setRow(Integer.parseInt(playerDataArray[1]));
-	            System.out.println("load row: " + currentPlayer.getRow());
-	            System.out.println("load column" + currentPlayer.getColumn());
-	            currentPlayer.setColumn(Integer.parseInt(playerDataArray[2]));
-	    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+		        saveLogic();
 		    	
 		    }
 		});
 		
-		restartButton = new Button();
-		restartButton.setText("Restart");
-		restartButton.setMinSize(100, 25);
-		restartButton.setMaxSize(100, 25);
-		restartButton.setOnAction(new EventHandler<ActionEvent>() {
+		myLoadButton = new Button();
+		myLoadButton.setText("Load");
+		myLoadButton.setMinSize(100, 25);
+		myLoadButton.setMaxSize(100, 25);
+		myLoadButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		    @Override 
+		    public void handle(ActionEvent e) {
+		    	
+		    	loadLogic();
+		    	
+		    }
+		});
+		
+		myRestartButton = new Button();
+		myRestartButton.setText("Restart");
+		myRestartButton.setMinSize(100, 25);
+		myRestartButton.setMaxSize(100, 25);
+		myRestartButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override 
 			public void handle(ActionEvent e) {
-		    	helpTextArea.clear();
-		    	helpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
-						+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
-						+ "or down. The game will prompt you with a question and give you buttons to "
-						+ "press. Answer the questions correctly to move. Getting to the red circle in "
-						+ "the bottom right corner is the objective. \n\nGood luck!");
-		    	currentPlayer.setName("Player");
-		    	currentPlayer.setRow(0);
-		    	currentPlayer.setColumn(0);
-		    	setPlayerSQL("Player", 0, 0);
-		    	removePlayer(grid, currentPlayer);
-	    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
+		        
+				restartLogic();
+				
 		    }
 		});
 		
-		loadSaveBox = new HBox(25);
-		loadSaveBox.getChildren().addAll(saveButton, loadButton);
-		loadSaveBox.setAlignment(Pos.CENTER);
+		myLoadSaveBox = new HBox(25);
+		myLoadSaveBox.getChildren().addAll(mySaveButton, myLoadButton);
+		myLoadSaveBox.setAlignment(Pos.CENTER);
 		
 		VBox rightVBox = new VBox(40);
 		rightVBox.setAlignment(Pos.CENTER);
-		rightVBox.getChildren().addAll(helpTextArea, setNameButton, setNameFieldAndSubmitBox, loadSaveBox, restartButton);
+		rightVBox.getChildren().addAll(myHelpTextArea, mySetNameButton, mySetNameFieldAndSubmitBox, myLoadSaveBox, myRestartButton);
 		
-		textArea = new TextArea();
-		textArea.setMinSize(300, 250);
-		textArea.setMaxSize(300, 250);
-		textArea.setEditable(false);
-		textArea.setWrapText(true);
+		myTextArea = new TextArea();
+		myTextArea.setMinSize(300, 250);
+		myTextArea.setMaxSize(300, 250);
+		myTextArea.setEditable(false);
+		myTextArea.setWrapText(true);
 		
-		textField = new TextField();
-		textField.setMinSize(300, 30);
-		textField.setMaxSize(300, 30);
+		myTextField = new TextField();
+		myTextField.setMinSize(300, 30);
+		myTextField.setMaxSize(300, 30);
 		
-		aButton = new Button();
-		aButton.setText("A");
-		aButton.setMinSize(50, 25);
-		aButton.setMaxSize(50, 25);
-		aButton.setOnAction(new EventHandler<ActionEvent>() {
+		myAButton = new Button();
+		myAButton.setText("A");
+		myAButton.setMinSize(50, 25);
+		myAButton.setMaxSize(50, 25);
+		myAButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "a";	
-				if (currentQType.equals("abcd") && (multUnanswered == true)) {
-					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
+				myMultipleChoiceSelection = "a";	
+				if (myCurrentQType.equals("abcd") && (myMultUnanswered == true)) {
+					if (gotItRightWithString(myCurrentQA, myMultipleChoiceSelection)) {
 						movePlayer();
 					} else {
-						currentDoor.setPermLocked();
-						textArea.clear();
-		    			textArea.appendText("Wrong! This door is now locked");
+						myCurrentDoor.setPermLocked(true);
+						myTextArea.clear();
+		    			myTextArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtonsBox.setVisible(false);
-					allButtonsBox.setVisible(true);
+					myabcdButtonsBox.setVisible(false);
+					myAllButtonsBox.setVisible(true);
 				}
 			}	
 		});
 		
-		bButton = new Button();
-		bButton.setText("B");
-		bButton.setMinSize(50, 25);
-		bButton.setMaxSize(50, 25);
-		bButton.setOnAction(new EventHandler<ActionEvent>() {
+		myBButton = new Button();
+		myBButton.setText("B");
+		myBButton.setMinSize(50, 25);
+		myBButton.setMaxSize(50, 25);
+		myBButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "b";
-				if (currentQType.equals("abcd") && (multUnanswered == true)) {
-					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
+				myMultipleChoiceSelection = "b";
+				if (myCurrentQType.equals("abcd") && (myMultUnanswered == true)) {
+					if (gotItRightWithString(myCurrentQA, myMultipleChoiceSelection)) {
 						movePlayer();
 					} else {
-						currentDoor.setPermLocked();
-						textArea.clear();
-		    			textArea.appendText("Wrong! This door is now locked");
+						myCurrentDoor.setPermLocked(true);
+						myTextArea.clear();
+		    			myTextArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtonsBox.setVisible(false);
-					allButtonsBox.setVisible(true);
+					myabcdButtonsBox.setVisible(false);
+					myAllButtonsBox.setVisible(true);
 				}
 			}
 			
 		});
 		
-		cButton = new Button();
-		cButton.setText("C");
-		cButton.setMinSize(50, 25);
-		cButton.setMaxSize(50, 25);
-		cButton.setOnAction(new EventHandler<ActionEvent>() {
+		myCButton = new Button();
+		myCButton.setText("C");
+		myCButton.setMinSize(50, 25);
+		myCButton.setMaxSize(50, 25);
+		myCButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "c";
-				if (currentQType.equals("abcd") && (multUnanswered == true)) {
-					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
+				myMultipleChoiceSelection = "c";
+				if (myCurrentQType.equals("abcd") && (myMultUnanswered == true)) {
+					if (gotItRightWithString(myCurrentQA, myMultipleChoiceSelection)) {
 						movePlayer();
 					} else {
-						currentDoor.setPermLocked();
-						textArea.clear();
-		    			textArea.appendText("Wrong! This door is now locked");
+						myCurrentDoor.setPermLocked(true);
+						myTextArea.clear();
+		    			myTextArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtonsBox.setVisible(false);
-					allButtonsBox.setVisible(true);
+					myabcdButtonsBox.setVisible(false);
+					myAllButtonsBox.setVisible(true);
 				}
 			}
 			
 		});
 		
-		dButton = new Button();
-		dButton.setText("D");
-		dButton.setMinSize(50, 25);
-		dButton.setMaxSize(50, 25);
-		dButton.setOnAction(new EventHandler<ActionEvent>() {
+		myDButton = new Button();
+		myDButton.setText("D");
+		myDButton.setMinSize(50, 25);
+		myDButton.setMaxSize(50, 25);
+		myDButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) {
-				multipleChoiceSelection = "d";
-				if (currentQType.equals("abcd") && (multUnanswered == true)) {
-					if (gotItRightWithString(currentQA, multipleChoiceSelection)) {
+				myMultipleChoiceSelection = "d";
+				if (myCurrentQType.equals("abcd") && (myMultUnanswered == true)) {
+					if (gotItRightWithString(myCurrentQA, myMultipleChoiceSelection)) {
 						movePlayer();
 					} else {
-						currentDoor.setPermLocked();
-						textArea.clear();
-		    			textArea.appendText("Wrong! This door is now locked");
+						myCurrentDoor.setPermLocked(true);
+						myTextArea.clear();
+		    			myTextArea.appendText("Wrong! This door is now locked");
 					}
-					abcdButtonsBox.setVisible(false);
-					allButtonsBox.setVisible(true);
+					myabcdButtonsBox.setVisible(false);
+					myAllButtonsBox.setVisible(true);
 				}
 			}
 			
 		});
 		
-		userInput = new String();
-		enterButton = new Button();
-		enterButton.setText("Enter");
-		enterButton.setMinSize(100, 25);
-		enterButton.setMaxSize(100, 25);
-		enterButton.setOnAction(new EventHandler<ActionEvent>() {
+		myEnterButton = new Button();
+		myEnterButton.setText("Enter");
+		myEnterButton.setMinSize(100, 25);
+		myEnterButton.setMaxSize(100, 25);
+		myEnterButton.setOnAction(new EventHandler<ActionEvent>() {
 		
 		    @Override 
 		    public void handle(ActionEvent e) {
-		    	userInput = textField.getText();
-		    	if (currentQType.equals("Short Answer") && (enterUnanswered == true)) { 
-		    		if (gotItRight(currentQA)) {
-		    			textField.clear();
+		    	if (myCurrentQType.equals("Short Answer") && (myEnterUnanswered == true)) { 
+		    		if (gotItRight(myCurrentQA)) {
+		    			myTextField.clear();
 		    			movePlayer();
 		    		} else {
-		    			currentDoor.setPermLocked();
-		    			textField.clear();
-		    			textArea.clear();
-		    			textArea.appendText("Wrong! This door is now locked");
+		    			myCurrentDoor.setPermLocked(true);
+		    			myTextField.clear();
+		    			myTextArea.clear();
+		    			myTextArea.appendText("Wrong! This door is now locked");
 		    		}
-		    		fieldAndEnterBox.setVisible(false);
-		    		allButtonsBox.setVisible(true);
+		    		myFieldAndEnterBox.setVisible(false);
+		    		myAllButtonsBox.setVisible(true);
 		    	} 
 		    }
 		});
 		
-		fieldAndEnterBox = new VBox(10);
-		fieldAndEnterBox.setAlignment(Pos.CENTER);
-		fieldAndEnterBox.getChildren().addAll(textField, enterButton);
-        fieldAndEnterBox.setVisible(false);
+		myFieldAndEnterBox = new VBox(10);
+		myFieldAndEnterBox.setAlignment(Pos.CENTER);
+		myFieldAndEnterBox.getChildren().addAll(myTextField, myEnterButton);
+        myFieldAndEnterBox.setVisible(false);
 		
-		abcdButtonsBox = new HBox(33);
-		abcdButtonsBox.getChildren().addAll(aButton, bButton, cButton, dButton);
-		abcdButtonsBox.setVisible(false);
+		myabcdButtonsBox = new HBox(33);
+		myabcdButtonsBox.getChildren().addAll(myAButton, myBButton, myCButton, myDButton);
+		myabcdButtonsBox.setVisible(false);
 		
-		trueButton = new Button();
-		trueButton.setText("True");
-		trueButton.setMinSize(100, 25);
-		trueButton.setMaxSize(100, 25);
-		trueButton.setOnAction(new EventHandler<ActionEvent>() {
+		myTrueButton = new Button();
+		myTrueButton.setText("True");
+		myTrueButton.setMinSize(100, 25);
+		myTrueButton.setMaxSize(100, 25);
+		myTrueButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override public void handle(ActionEvent e) {
-		    	if (currentQType.equals("T/F") && (trueFalseUnanswered == true)) { 
-		    		if (gotItRightWithString(currentQA, "true")) {
-		    			textField.clear();
+		    	if (myCurrentQType.equals("T/F") && (myTrueFalseUnanswered == true)) { 
+		    		if (gotItRightWithString(myCurrentQA, "true")) {
+		    			myTextField.clear();
 		    			movePlayer();
 		    		} else {
-		    			currentDoor.setPermLocked();
-		    			textField.clear();
-		    			textArea.clear();
-		    			textArea.appendText("Wrong! This door is now locked");
+		    			myCurrentDoor.setPermLocked(true);
+		    			myTextField.clear();
+		    			myTextArea.clear();
+		    			myTextArea.appendText("Wrong! This door is now locked");
 		    		}
-		    		trueFalseButtonsBox.setVisible(false);
-		    		allButtonsBox.setVisible(true);
+		    		myTrueFalseButtonsBox.setVisible(false);
+		    		myAllButtonsBox.setVisible(true);
 		    	} 
 		    }
 		});
 		
-		falseButton = new Button();
-		falseButton.setText("False");
-		falseButton.setMinSize(100, 25);
-		falseButton.setMaxSize(100, 25);
-		falseButton.setOnAction(new EventHandler<ActionEvent>() {
+		myFalseButton = new Button();
+		myFalseButton.setText("False");
+		myFalseButton.setMinSize(100, 25);
+		myFalseButton.setMaxSize(100, 25);
+		myFalseButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override public void handle(ActionEvent e) {
-		    	if (currentQType.equals("T/F") && (trueFalseUnanswered == true)) { 
-		    		if (gotItRightWithString(currentQA, "false")) {
-		    			textField.clear();
+		    	if (myCurrentQType.equals("T/F") && (myTrueFalseUnanswered == true)) { 
+		    		if (gotItRightWithString(myCurrentQA, "false")) {
+		    			myTextField.clear();
 		    			movePlayer();
 		    		} else {
-		    			currentDoor.setPermLocked();
-		    			textField.clear();
-		    			textArea.clear();
-		    			textArea.appendText("Wrong! This door is now locked");
+		    			myCurrentDoor.setPermLocked(true);
+		    			myTextField.clear();
+		    			myTextArea.clear();
+		    			myTextArea.appendText("Wrong! This door is now locked");
 		    		}
-		    		trueFalseButtonsBox.setVisible(false);
-		    		allButtonsBox.setVisible(true);
+		    		myTrueFalseButtonsBox.setVisible(false);
+		    		myAllButtonsBox.setVisible(true);
 		    	} 
 		    }
 		});
 		
-		trueFalseButtonsBox = new HBox(25);
-		trueFalseButtonsBox.getChildren().addAll(trueButton, falseButton);
-		trueFalseButtonsBox.setAlignment(Pos.CENTER);
-		trueFalseButtonsBox.setVisible(false);
+		myTrueFalseButtonsBox = new HBox(25);
+		myTrueFalseButtonsBox.getChildren().addAll(myTrueButton, myFalseButton);
+		myTrueFalseButtonsBox.setAlignment(Pos.CENTER);
+		myTrueFalseButtonsBox.setVisible(false);
 		
 		VBox leftVBox = new VBox(40);
 		leftVBox.setAlignment(Pos.CENTER);
-		leftVBox.getChildren().addAll(textArea, fieldAndEnterBox, abcdButtonsBox, trueFalseButtonsBox);
+		leftVBox.getChildren().addAll(myTextArea, myFieldAndEnterBox, myabcdButtonsBox, myTrueFalseButtonsBox);
 		
+		myCurrentPlayer = new Player("Player", 0, 0);
 		
-		//going to need to ask the player for their name here.
-		currentPlayer = new Player("Player", 0, 0);
-		
-		grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-	    grid.setHgap(4);
-		//grid.setVgap(3);
-		//grid.setMinSize(360, 420);
-		grid.setMinSize(360, 420);
-
+		myGrid = new GridPane();
+		myGrid.setAlignment(Pos.CENTER);
+	    myGrid.setHgap(4);
+		myGrid.setMinSize(360, 420);
 		
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -428,19 +378,19 @@ public class TriviaMaze extends Application {
 					Rectangle rect = new Rectangle(60, 60, 60, 60);
 					rect.setFill(Color.WHITE);
 					rect.setStroke(Color.BLACK);
-					grid.add(rect, i, j);
+					myGrid.add(rect, i, j);
 				} else if ((j % 2 == 1) && (i % 2 == 0)) {
-					grid.add(maze.getRoom(i, j - 1).getRightDoor().getShape(), j, i);
+					myGrid.add(myMaze.getRoom(i, j - 1).getRightDoor().getShape(), j, i);
 				} else if ((i % 2 == 1) && (j % 2 == 0)) {
-					grid.add(maze.getRoom(i - 1, j).getBottomDoor().getShape(), j, i);
-					GridPane.setHalignment(maze.getRoom(i-1, j).getBottomDoor().getShape(), HPos.CENTER);
+					myGrid.add(myMaze.getRoom(i - 1, j).getBottomDoor().getShape(), j, i);
+					GridPane.setHalignment(myMaze.getRoom(i-1, j).getBottomDoor().getShape(), HPos.CENTER);
 				}
 				
 			}
 		}
 		
-		grid.add(currentPlayer.getShape(), 0, 0);
-		notAtEnd = true;
+		myGrid.add(myCurrentPlayer.getShape(), 0, 0);
+		myNotAtEnd = true;
 		
 		final Circle endCircle = new Circle(0,0,25);
 		final Text endText = new Text("END");
@@ -448,144 +398,144 @@ public class TriviaMaze extends Application {
 		endCircle.setFill(Color.RED);
 		endObject.getChildren().addAll(endCircle, endText);
 		endObject.setVisible(true);
-		grid.add(endObject, 8, 8);
+		myGrid.add(endObject, 8, 8);
 		
-		upButton = new Button();
-		upButton.setText("Up");
-		upButton.setMinSize(52, 25);
-		upButton.setMaxSize(52, 25);
-		upButton.setOnAction(new EventHandler<ActionEvent>() {
+		myUpButton = new Button();
+		myUpButton.setText("Up");
+		myUpButton.setMinSize(52, 25);
+		myUpButton.setMaxSize(52, 25);
+		myUpButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	if (notAtEnd) {
-		    		if (currentPlayer.getRow() > 0) {
-		    			Room upperRoom = maze.getRoom(currentPlayer.getRow() - 2, currentPlayer.getColumn());
-			    		currentDoor = upperRoom.getBottomDoor();
-			    		currentQA = currentDoor.getQuestion_Answer();
-			    	    currentQA.generate();
-			    		if (!currentDoor.getPermLockStat()) {
-			    			allButtonsBox.setVisible(false);
-			    			askQuestion(currentQA);
-			    			playerDirection = "up";
+		    	if (myNotAtEnd) {
+		    		if (myCurrentPlayer.getRow() > 0) {
+		    			Room upperRoom = myMaze.getRoom(myCurrentPlayer.getRow() - 2, myCurrentPlayer.getColumn());
+			    		myCurrentDoor = upperRoom.getBottomDoor();
+			    		myCurrentQA = myCurrentDoor.getQuestion_Answer();
+			    	    myCurrentQA.generate();
+			    		if (!myCurrentDoor.getPermLockStat()) {
+			    			myAllButtonsBox.setVisible(false);
+			    			askQuestion(myCurrentQA);
+			    			myPlayerDirection = "up";
 			    		} else {
-			    			textArea.clear();
-			    			textArea.appendText("This door is permanently locked");
+			    			myTextArea.clear();
+			    			myTextArea.appendText("This door is permanently locked");
 			    		}
 		    		} else {
-		    			textArea.clear();
-			    		textArea.appendText("Cannot go up");
+		    			myTextArea.clear();
+			    		myTextArea.appendText("Cannot go up");
 		    		}
 		    	} else {
-		    		textArea.clear();
-	    			textArea.appendText("No need to move, you already won!");
+		    		myTextArea.clear();
+	    			myTextArea.appendText("No need to move, you already won!");
 		    	}
 		    }
 		});
 		
-		leftButton = new Button();
-		leftButton.setText("Left");
-		leftButton.setMinSize(50, 25);
-		leftButton.setMaxSize(50, 25);
-		leftButton.setOnAction(new EventHandler<ActionEvent>() {
+		myLeftButton = new Button();
+		myLeftButton.setText("Left");
+		myLeftButton.setMinSize(50, 25);
+		myLeftButton.setMaxSize(50, 25);
+		myLeftButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	if (notAtEnd) {
-		    		if (currentPlayer.getColumn() > 0) {
-		    			Room leftRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn() - 2);
-			    		currentDoor = leftRoom.getRightDoor();
-			    		currentQA = currentDoor.getQuestion_Answer();
-			    		currentQA.generate();
-			    		if (!currentDoor.getPermLockStat()) {
-			    			allButtonsBox.setVisible(false);
-			    			askQuestion(currentQA);
-			    			playerDirection = "left";
+		    	if (myNotAtEnd) {
+		    		if (myCurrentPlayer.getColumn() > 0) {
+		    			Room leftRoom = myMaze.getRoom(myCurrentPlayer.getRow(), myCurrentPlayer.getColumn() - 2);
+			    		myCurrentDoor = leftRoom.getRightDoor();
+			    		myCurrentQA = myCurrentDoor.getQuestion_Answer();
+			    		myCurrentQA.generate();
+			    		if (!myCurrentDoor.getPermLockStat()) {
+			    			myAllButtonsBox.setVisible(false);
+			    			askQuestion(myCurrentQA);
+			    			myPlayerDirection = "left";
 			    		} else {
-			    			textArea.clear();
-			    			textArea.appendText("This door is permanently locked");
+			    			myTextArea.clear();
+			    			myTextArea.appendText("This door is permanently locked");
 			    		}
 		    		} else {
-		    			textArea.clear();
-			    		textArea.appendText("Cannot go left");
+		    			myTextArea.clear();
+			    		myTextArea.appendText("Cannot go left");
 		    		}
 		    	} else {
-		    		textArea.clear();
-	    			textArea.appendText("No need to move, you already won!");
+		    		myTextArea.clear();
+	    			myTextArea.appendText("No need to move, you already won!");
 		    	}
 		    }
 		});
 		
-		rightButton = new Button();
-		rightButton.setText("Right");
-		rightButton.setMinSize(50, 25);
-		rightButton.setMaxSize(50, 25);
-		rightButton.setOnAction(new EventHandler<ActionEvent>() {
+		myRightButton = new Button();
+		myRightButton.setText("Right");
+		myRightButton.setMinSize(50, 25);
+		myRightButton.setMaxSize(50, 25);
+		myRightButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	if (notAtEnd) {
-		    		if (currentPlayer.getColumn() < 8) {
-		    			Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
-			    		currentDoor = thisRoom.getRightDoor();
-			    		currentQA = currentDoor.getQuestion_Answer();
-			    		currentQA.generate();
-			    		if (!currentDoor.getPermLockStat()) {
-			    			allButtonsBox.setVisible(false);
-			    			askQuestion(currentQA);
-			    			playerDirection = "right";
+		    	if (myNotAtEnd) {
+		    		if (myCurrentPlayer.getColumn() < 8) {
+		    			Room thisRoom = myMaze.getRoom(myCurrentPlayer.getRow(), myCurrentPlayer.getColumn());
+			    		myCurrentDoor = thisRoom.getRightDoor();
+			    		myCurrentQA = myCurrentDoor.getQuestion_Answer();
+			    		myCurrentQA.generate();
+			    		if (!myCurrentDoor.getPermLockStat()) {
+			    			myAllButtonsBox.setVisible(false);
+			    			askQuestion(myCurrentQA);
+			    			myPlayerDirection = "right";
 			    		} else {
-			    			textArea.clear();
-			    			textArea.appendText("This door is permanently locked");
+			    			myTextArea.clear();
+			    			myTextArea.appendText("This door is permanently locked");
 			    		}
 		    		} else {
-		    			textArea.clear();
-			    		textArea.appendText("Cannot go right");
+		    			myTextArea.clear();
+			    		myTextArea.appendText("Cannot go right");
 		    		}
 		    	} else {
-		    		textArea.clear();
-	    			textArea.appendText("No need to move, you already won!");
+		    		myTextArea.clear();
+	    			myTextArea.appendText("No need to move, you already won!");
 		    	}
 		    }
 		});
 		
-		downButton = new Button();
-		downButton.setText("Down");
-		downButton.setMinSize(52, 25);
-		downButton.setMaxSize(52, 25);
-		downButton.setOnAction(new EventHandler<ActionEvent>() {
+		myDownButton = new Button();
+		myDownButton.setText("Down");
+		myDownButton.setMinSize(52, 25);
+		myDownButton.setMaxSize(52, 25);
+		myDownButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 		    @Override public void handle(ActionEvent e) {
-		    	if (notAtEnd) {
-		    		if (currentPlayer.getRow() < 8) {
-		    			Room thisRoom = maze.getRoom(currentPlayer.getRow(), currentPlayer.getColumn());
-			    		currentDoor = thisRoom.getBottomDoor();
-			    		currentQA = currentDoor.getQuestion_Answer();
-			    		currentQA.generate();
-			    		if (!currentDoor.getPermLockStat()) {
-			    			allButtonsBox.setVisible(false);
-			    			askQuestion(currentQA);
-			    			playerDirection = "down";
+		    	if (myNotAtEnd) {
+		    		if (myCurrentPlayer.getRow() < 8) {
+		    			Room thisRoom = myMaze.getRoom(myCurrentPlayer.getRow(), myCurrentPlayer.getColumn());
+			    		myCurrentDoor = thisRoom.getBottomDoor();
+			    		myCurrentQA = myCurrentDoor.getQuestion_Answer();
+			    		myCurrentQA.generate();
+			    		if (!myCurrentDoor.getPermLockStat()) {
+			    			myAllButtonsBox.setVisible(false);
+			    			askQuestion(myCurrentQA);
+			    			myPlayerDirection = "down";
 			    		} else {
-			    			textArea.clear();
-			    			textArea.appendText("This door is permanently locked");
+			    			myTextArea.clear();
+			    			myTextArea.appendText("This door is permanently locked");
 			    		}
 		    		} else {
-		    			textArea.clear();
-			    		textArea.appendText("Cannot go down");
+		    			myTextArea.clear();
+			    		myTextArea.appendText("Cannot go down");
 		    		}
 		    	} else {
-		    		textArea.clear();
-	    			textArea.appendText("No need to move, you already won!");
+		    		myTextArea.clear();
+	    			myTextArea.appendText("No need to move, you already won!");
 		    	}
 		    }
 		});
 	
 		VBox upDownButtonsBox = new VBox(25);
 		upDownButtonsBox.setAlignment(Pos.CENTER);
-		allButtonsBox = new HBox();
-		upDownButtonsBox.getChildren().addAll(upButton, downButton);
-		allButtonsBox.getChildren().addAll(leftButton, upDownButtonsBox, rightButton);
-		allButtonsBox.setMinSize(75, 150);
-		allButtonsBox.setMaxSize(75, 150);
-		allButtonsBox.setAlignment(Pos.CENTER);
+		myAllButtonsBox = new HBox();
+		upDownButtonsBox.getChildren().addAll(myUpButton, myDownButton);
+		myAllButtonsBox.getChildren().addAll(myLeftButton, upDownButtonsBox, myRightButton);
+		myAllButtonsBox.setMinSize(75, 150);
+		myAllButtonsBox.setMaxSize(75, 150);
+		myAllButtonsBox.setAlignment(Pos.CENTER);
 		
 		StackPane Pane = new StackPane();
 		Pane.setStyle("-fx-background-color: DDDDDD");
@@ -593,7 +543,7 @@ public class TriviaMaze extends Application {
 		Pane.setMaxSize(800, 650);
 		
 		VBox gridAndButtonsBox = new VBox();
-		gridAndButtonsBox.getChildren().addAll(grid, allButtonsBox);
+		gridAndButtonsBox.getChildren().addAll(myGrid, myAllButtonsBox);
 		gridAndButtonsBox.setAlignment(Pos.CENTER);
 		
 		HBox leftAndRightVBoxes = new HBox(25);
@@ -609,153 +559,149 @@ public class TriviaMaze extends Application {
 		primaryStage.show();
 	}
 	
-	void removePlayer(GridPane grid, Player currentPlayer) {
+	void removePlayer(GridPane theGrid, Player theCurrentPlayer) {
 		
-	    for (final Node node : grid.getChildren()) {
-		    if (node == currentPlayer.getShape()) {
-			    grid.getChildren().removeAll(node);
+	    for (final Node node : theGrid.getChildren()) {
+		    if (node == theCurrentPlayer.getShape()) {
+			    theGrid.getChildren().removeAll(node);
 			    break;
 	        }          
 	    }  
 	}
 	
-	private void askQuestion(Question_Answer qA) {
-		currentQType = qA.getQuestionType();
-		if (currentQType.equals("Short Answer")) {
-			multUnanswered = false;
-			trueFalseUnanswered = false;
+	private void askQuestion(Question_Answer theQA) {
+		myCurrentQType = theQA.getQuestionType();
+		if (myCurrentQType.equals("Short Answer")) {
+			myMultUnanswered = false;
+			myTrueFalseUnanswered = false;
 			
-			fieldAndEnterBox.setVisible(true);
-			abcdButtonsBox.setVisible(false);
-			trueFalseButtonsBox.setVisible(false);
+			myFieldAndEnterBox.setVisible(true);
+			myabcdButtonsBox.setVisible(false);
+			myTrueFalseButtonsBox.setVisible(false);
 			
-			enterUnanswered = true;
-		} else if (currentQType.equals("abcd")) {
-			enterUnanswered = false;
-			trueFalseUnanswered = false;
+			myEnterUnanswered = true;
+		} else if (myCurrentQType.equals("abcd")) {
+			myEnterUnanswered = false;
+			myTrueFalseUnanswered = false;
 			
-			fieldAndEnterBox.setVisible(false);
-			abcdButtonsBox.setVisible(true);
-			trueFalseButtonsBox.setVisible(false);
+			myFieldAndEnterBox.setVisible(false);
+			myabcdButtonsBox.setVisible(true);
+			myTrueFalseButtonsBox.setVisible(false);
 			
-			multUnanswered = true;
-		} else if (currentQType.equals("T/F")) {
-			enterUnanswered = false;
-			multUnanswered = false;
+			myMultUnanswered = true;
+		} else if (myCurrentQType.equals("T/F")) {
+			myEnterUnanswered = false;
+			myMultUnanswered = false;
 			
-			fieldAndEnterBox.setVisible(false);
-			abcdButtonsBox.setVisible(false);
-			trueFalseButtonsBox.setVisible(true);
+			myFieldAndEnterBox.setVisible(false);
+			myabcdButtonsBox.setVisible(false);
+			myTrueFalseButtonsBox.setVisible(true);
 			
-			trueFalseUnanswered = true;
+			myTrueFalseUnanswered = true;
 		}
-		textArea.clear();
-		textArea.appendText(qA.getQuestion());
+		myTextArea.clear();
+		myTextArea.appendText(theQA.getQuestion());
 		
 	}
 	
-	private boolean gotItRight(Question_Answer qA) {
+	private boolean gotItRight(Question_Answer theQA) {
 		boolean gotItRight = false;
-		String rightAnswer = qA.getAnswer();
-		String userAnswer = textField.getText();
+		String rightAnswer = theQA.getAnswer();
+		String userAnswer = myTextField.getText();
 		if (rightAnswer.equalsIgnoreCase(userAnswer)) {
 			gotItRight = true;
 		}
 		return gotItRight;
 	}
 	
-	private boolean gotItRightWithString(Question_Answer qA, String userAnswer) {
+	private boolean gotItRightWithString(Question_Answer theQA, String theUserAnswer) {
 		boolean gotItRight = false;
-		String rightAnswer = qA.getAnswer();
-		if (rightAnswer.equalsIgnoreCase(userAnswer)) {
+		String rightAnswer = theQA.getAnswer();
+		if (rightAnswer.equalsIgnoreCase(theUserAnswer)) {
 			gotItRight = true;
 		}
 		return gotItRight;
 	}
 	
 	private void movePlayer() {
-		switch (playerDirection) {
+		switch (myPlayerDirection) {
     	case "up":
 
-    		removePlayer(grid, currentPlayer); 
-    		currentPlayer.setRow(currentPlayer.getRow() - 2);
-    		setPlayerSQL(currentPlayer.getName(), currentPlayer.getRow(), currentPlayer.getColumn());
-    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-    		textArea.clear();
-			textArea.appendText("Correct!");
-    		multUnanswered = false;
-    		enterUnanswered = false;
-    		trueFalseUnanswered = false;
-    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
-    			setPlayerSQL("Player", 0, 0);
-    			notAtEnd = false;
-    			textArea.clear();
-    			helpTextArea.clear();
-    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
+    		removePlayer(myGrid, myCurrentPlayer); 
+    		myCurrentPlayer.setRow(myCurrentPlayer.getRow() - 2);
+    		setPlayerSQL(myCurrentPlayer.getName(), myCurrentPlayer.getRow(), myCurrentPlayer.getColumn());
+    		myGrid.add(myCurrentPlayer.getShape(), myCurrentPlayer.getColumn(), myCurrentPlayer.getRow());
+    		myTextArea.clear();
+			myTextArea.appendText("Correct!");
+    		myMultUnanswered = false;
+    		myEnterUnanswered = false;
+    		myTrueFalseUnanswered = false;
+    		if (myCurrentPlayer.getRow() == 8 && myCurrentPlayer.getColumn() == 8) {
+    			myNotAtEnd = false;
+    			myTextArea.clear();
+    			myHelpTextArea.clear();
+    			myHelpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
-    		playerDataArray = getPlayerSQL();
+    		myPlayerDataArray = getPlayerSQL();
     		break;
     		
     	case "left":
     		
-    		removePlayer(grid, currentPlayer); 
-    		currentPlayer.setColumn(currentPlayer.getColumn() - 2);
-    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-    		textArea.clear();
-			textArea.appendText("Correct!");
-    		multUnanswered = false;
-    		enterUnanswered = false;
-    		trueFalseUnanswered = false;
-    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
-    			setPlayerSQL("Player", 0, 0);
-    			notAtEnd = false;
-    			textArea.clear();
-    			helpTextArea.clear();
-    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
+    		removePlayer(myGrid, myCurrentPlayer); 
+    		myCurrentPlayer.setColumn(myCurrentPlayer.getColumn() - 2);
+    		myGrid.add(myCurrentPlayer.getShape(), myCurrentPlayer.getColumn(), myCurrentPlayer.getRow());
+    		myTextArea.clear();
+			myTextArea.appendText("Correct!");
+    		myMultUnanswered = false;
+    		myEnterUnanswered = false;
+    		myTrueFalseUnanswered = false;
+    		if (myCurrentPlayer.getRow() == 8 && myCurrentPlayer.getColumn() == 8) {
+    			myNotAtEnd = false;
+    			myTextArea.clear();
+    			myHelpTextArea.clear();
+    			myHelpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
     		break;
     		
     	case "right":
     		
-    		removePlayer(grid, currentPlayer); 
-    		currentPlayer.setColumn(currentPlayer.getColumn() + 2);
-    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-    		textArea.clear();
-			textArea.appendText("Correct!");
-    		multUnanswered = false;
-    		enterUnanswered = false;
-    		trueFalseUnanswered = false;
-    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
-    			setPlayerSQL("Player", 0, 0);
-    			notAtEnd = false;
-    			textArea.clear();
-    			helpTextArea.clear();
-    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
+    		removePlayer(myGrid, myCurrentPlayer); 
+    		myCurrentPlayer.setColumn(myCurrentPlayer.getColumn() + 2);
+    		myGrid.add(myCurrentPlayer.getShape(), myCurrentPlayer.getColumn(), myCurrentPlayer.getRow());
+    		myTextArea.clear();
+			myTextArea.appendText("Correct!");
+    		myMultUnanswered = false;
+    		myEnterUnanswered = false;
+    		myTrueFalseUnanswered = false;
+    		if (myCurrentPlayer.getRow() == 8 && myCurrentPlayer.getColumn() == 8) {
+    			myNotAtEnd = false;
+    			myTextArea.clear();
+    			myHelpTextArea.clear();
+    			myHelpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
     		break;
     	
     	case "down":
     		
-    		removePlayer(grid, currentPlayer); 
-    		currentPlayer.setRow(currentPlayer.getRow() + 2);
-    		grid.add(currentPlayer.getShape(), currentPlayer.getColumn(), currentPlayer.getRow());
-    		textArea.clear();
-			textArea.appendText("Correct!");
-    		multUnanswered = false;
-    		enterUnanswered = false;
-    		trueFalseUnanswered = false;
-    		if (currentPlayer.getRow() == 8 && currentPlayer.getColumn() == 8) {
-    			setPlayerSQL("Player", 0, 0);
-    			notAtEnd = false;
-    			textArea.clear();
-    			helpTextArea.clear();
-    			helpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
+    		removePlayer(myGrid, myCurrentPlayer); 
+    		myCurrentPlayer.setRow(myCurrentPlayer.getRow() + 2);
+    		myGrid.add(myCurrentPlayer.getShape(), myCurrentPlayer.getColumn(), myCurrentPlayer.getRow());
+    		myTextArea.clear();
+			myTextArea.appendText("Correct!");
+    		myMultUnanswered = false;
+    		myEnterUnanswered = false;
+    		myTrueFalseUnanswered = false;
+    		if (myCurrentPlayer.getRow() == 8 && myCurrentPlayer.getColumn() == 8) {
+    			myNotAtEnd = false;
+    			myTextArea.clear();
+    			myHelpTextArea.clear();
+    			myHelpTextArea.appendText("Congratulations, you beat the Runescape Trivia Maze!\n \n To play again, press the restart button");
     		}
     		break;
     	}
 	}
 	
-    private void setPlayerSQL(String nameVariable, int rowVariable, int columnVariable) {
+    private void setPlayerSQL(String theNameVariable, int theRowVariable, int theColumnVariable) {
 	    SQLiteDataSource ds = null;
 		try {
             ds = new SQLiteDataSource();
@@ -766,29 +712,7 @@ public class TriviaMaze extends Application {
         }
 		try ( Connection conn = ds.getConnection();
 		    Statement stmt = conn.createStatement(); ){
-		    String updateQuery = "UPDATE players SET NAME = '" + nameVariable + "',  ROW = " + rowVariable + ", COLUMN = " + columnVariable;
-		    System.out.println(updateQuery);
-		    stmt.executeUpdate(updateQuery);
-
-	    } catch ( SQLException e ) {
-		      e.printStackTrace();
-		      System.exit( 0 );
-	    }
-	}
-    
-    private void setPlayerSQLName(String nameVariable) {
-	    SQLiteDataSource ds = null;
-		try {
-            ds = new SQLiteDataSource();
-            ds.setUrl("jdbc:sqlite:players.db");
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-		try ( Connection conn = ds.getConnection();
-		    Statement stmt = conn.createStatement(); ){
-		    String updateQuery = "UPDATE players SET NAME = '" + nameVariable + "'";
-		    //System.out.println(updateQuery);
+		    String updateQuery = "UPDATE players SET NAME = '" + theNameVariable + "',  ROW = " + theRowVariable + ", COLUMN = " + theColumnVariable;
 		    stmt.executeUpdate(updateQuery);
 
 	    } catch ( SQLException e ) {
@@ -798,8 +722,9 @@ public class TriviaMaze extends Application {
 	}
 	
 	private String[] getPlayerSQL() {
-		//System.out.println("its working");
+		
 		SQLiteDataSource ds = null;
+		
 		try {
             ds = new SQLiteDataSource();
             ds.setUrl("jdbc:sqlite:players.db");
@@ -807,36 +732,322 @@ public class TriviaMaze extends Application {
             e.printStackTrace();
             System.exit(0);
         }
+		
 		String selectQuery = "SELECT * FROM players";
 		String name = new String();
 		String row = new String();
 		String column = new String();
+		
 		try ( Connection conn = ds.getConnection();
-	              Statement stmt = conn.createStatement(); ) {
+	        Statement stmt = conn.createStatement(); ) {
 
-	            ResultSet rs = stmt.executeQuery(selectQuery);
+	        ResultSet rs = stmt.executeQuery(selectQuery);
 
-	            while ( rs.next() ) {
-	                name = rs.getString( "NAME" );
-	                //System.out.println(name);
-	                row = rs.getString( "ROW" );
-	                column = rs.getString( "COLUMN" );
-
-	                //System.out.println( "Info: Player's name = " + name +
-	                   // ", row = " + row + ", column = " + column );
-	            }
-	        } catch ( SQLException e ) {
-	            e.printStackTrace();
-	            System.exit( 0 );
+	        while ( rs.next() ) {
+	            name = rs.getString( "NAME" );
+	            row = rs.getString( "ROW" );
+	            column = rs.getString( "COLUMN" );
 	        }
+	    } catch ( SQLException e ) {
+	        e.printStackTrace();
+	        System.exit( 0 );
+	    }
+		
 		String[] returnArray = {name, row, column};
 		
-		//System.out.println(Arrays.toString(returnArray));
 		return returnArray;
+	}
+	
+	void saveLogic() {
+		setPlayerSQL(myCurrentPlayer.getName(), myCurrentPlayer.getRow(), myCurrentPlayer.getColumn());
+        
+        SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:doors.db");
+        } catch ( Exception e1 ) {
+            e1.printStackTrace();
+            System.exit(0);
+        }
+		
+        try ( Connection conn = ds.getConnection();
+              Statement stmt = conn.createStatement(); ) {
+            
+            String deleteQuery = "delete from doors";
+            stmt.executeUpdate(deleteQuery);
+            
+        } catch ( SQLException e1 ) {
+            e1.printStackTrace();
+            System.exit( 0 );
+        }
+		
+		int increment = 1;
+	    try ( Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement(); ) {
+	        for (int i = 0; i < 9; i = i + 2) {
+			    for (int j = 0; j < 9; j = j + 2) {
+			    	if ((i % 2 == 0) && (j % 2 == 0)) {
+			    		
+			    		myCurrentRoom = myMaze.getRoom(i, j);
+			    		Door rightDoor = myCurrentRoom.getRightDoor();
+			    		int rightDoorLocked = 0;
+			    		if (rightDoor.getPermLockStat()) {
+			    			rightDoorLocked = 1;
+			    		}
+			    		String query1 = "INSERT INTO doors ( ID, ISLOCKED ) VALUES ('" + increment + "', " + rightDoorLocked + ")";   // ('Joe', 0, 0)
+			    		stmt.executeUpdate(query1);
+			    		increment++;
+			    		
+			    		Door bottomDoor = myCurrentRoom.getBottomDoor();
+			    		int bottomDoorLocked = 0;
+			    		if (bottomDoor.getPermLockStat()) {
+			    			bottomDoorLocked = 1;
+			    		}
+			    		String query2 = "INSERT INTO doors ( ID, ISLOCKED ) VALUES ('" + increment + "', " + bottomDoorLocked + ")";   // ('Joe', 0, 0)
+			    	    stmt.executeUpdate(query2);
+			    	    increment++;
+			    	}
+			    }
+		    }
+        } catch ( SQLException e1 ) {
+	        e1.printStackTrace();
+            System.exit( 0 );
+        }
+        myHelpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
+				+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
+				+ "or down. The game will prompt you with a question and give you buttons to "
+				+ "press. Answer the questions correctly to move. Getting to the red circle in "
+				+ "the bottom right corner is the objective. \n\nGood luck!");
+    	
+	}
+	
+	void loadLogic() {
+		
+		myNotAtEnd = true;
+		myHelpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
+				+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
+				+ "or down. The game will prompt you with a question and give you buttons to "
+				+ "press. Answer the questions correctly to move. Getting to the red circle in "
+				+ "the bottom right corner is the objective. \n\nGood luck!");
+		removePlayer(myGrid, myCurrentPlayer); 
+        myPlayerDataArray = getPlayerSQL();
+        myCurrentPlayer.setName(myPlayerDataArray[0]);
+        myCurrentPlayer.setRow(Integer.parseInt(myPlayerDataArray[1]));
+        myCurrentPlayer.setColumn(Integer.parseInt(myPlayerDataArray[2]));
+		myGrid.add(myCurrentPlayer.getShape(), myCurrentPlayer.getColumn(), myCurrentPlayer.getRow());
+		
+	    SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:doors.db");
+        } catch ( Exception e1 ) {
+            e1.printStackTrace();
+            System.exit(0);
+        }
+		int increment = 1;
+		String selectQuery = "SELECT * FROM doors";
+		for (int i = 0; i < 9; i = i + 2) {
+		    for (int j = 0; j < 9; j = j + 2) {
+		    	if ((i % 2 == 0) && (j % 2 == 0)) {
+		    		myCurrentRoom = myMaze.getRoom(i, j);
+		    		try ( Connection conn = ds.getConnection();
+			                Statement stmt = conn.createStatement(); ) {
+		    			ResultSet rs = stmt.executeQuery(selectQuery);
+		    			boolean rightDoorAssigned = false;
+		    			boolean bottomDoorAssigned = false;
+		    			while (rs.next()) {
+		    				
+		    				String iD = rs.getString( "ID" );
+			    			String isLocked = rs.getString( "ISLOCKED" );
+			    			
+				    		Door rightDoor = myCurrentRoom.getRightDoor();
+				    		Door bottomDoor = myCurrentRoom.getBottomDoor();
+				            
+				    		if (Integer.parseInt(iD) % 2 == 1) {
+				    			
+				    			if (iD.equals(String.valueOf(increment)) && isLocked.equals("1")) {
+				    				
+				    				rightDoor.setPermLocked(true);
+				    				if (!rightDoorAssigned) {
+				    					increment++;
+				    				}
+				    				rightDoorAssigned = true;
+				    				
+				    			} else if (iD.equals(String.valueOf(increment)) && isLocked.equals("0")) {
+				    				
+				    				rightDoor.setPermLocked(false);
+				    				if (!rightDoorAssigned) {
+				    					increment++;
+				    				}
+				    				rightDoorAssigned = true;
+				    			} 
+				    		}
+				    		 
+				    		if (Integer.parseInt(iD) % 2 == 0) {
+				    			
+				    			if (iD.equals(String.valueOf(increment)) && isLocked.equals("1")) {
+				    				
+				    				bottomDoor.setPermLocked(true);
+				    				if (!bottomDoorAssigned) {
+				    					increment++;
+				    				}
+				    				bottomDoorAssigned = true;
+				    			} else if (iD.equals(String.valueOf(increment)) && isLocked.equals("0")) {
+				    				
+				    				bottomDoor.setPermLocked(false);
+				    				if (!bottomDoorAssigned) {
+				    					increment++;
+				    				}
+				    				bottomDoorAssigned = true;
+				    			} 
+				    		}
+				    		
+				    		if (rightDoorAssigned && bottomDoorAssigned) {
+				    			break;
+				    		}
+		    			}
+		    			
+		    		} catch ( SQLException e1 ) {
+				        e1.printStackTrace();
+		                System.exit( 0 );
+			        }
+		    	}
+		    }
+		}
+    }
+	
+	void restartLogic() {
+		
+		myNotAtEnd = true;
+		myHelpTextArea.clear();
+    	myHelpTextArea.setText("Welcome to the RuneScape Trivia Maze!\nSetting your name, saving, "
+				+ "and loading is done below.\n \nTo play the game, you may go up, left, right, "
+				+ "or down. The game will prompt you with a question and give you buttons to "
+				+ "press. Answer the questions correctly to move. Getting to the red circle in "
+				+ "the bottom right corner is the objective. \n\nGood luck!");
+    	myCurrentPlayer.setName("Player");
+    	myCurrentPlayer.setRow(0);
+    	myCurrentPlayer.setColumn(0);
+    	setPlayerSQL("Player", 0, 0);
+    	removePlayer(myGrid, myCurrentPlayer);
+		myGrid.add(myCurrentPlayer.getShape(), myCurrentPlayer.getColumn(), myCurrentPlayer.getRow());
+		
+		SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:doors.db");
+        } catch ( Exception e1 ) {
+            e1.printStackTrace();
+            System.exit(0);
+        }
+		int increment = 1;
+		String selectQuery = "SELECT * FROM doors";
+		for (int i = 0; i < 9; i = i + 2) {
+		    for (int j = 0; j < 9; j = j + 2) {
+		    	if ((i % 2 == 0) && (j % 2 == 0)) {
+		    		myCurrentRoom = myMaze.getRoom(i, j);
+		    		try ( Connection conn = ds.getConnection();
+			                Statement stmt = conn.createStatement(); ) {
+		    			ResultSet rs = stmt.executeQuery(selectQuery);
+		    			boolean rightDoorAssigned = false;
+		    			boolean bottomDoorAssigned = false;
+		    			while (rs.next()) {
+		    				
+		    				String iD = rs.getString( "ID" );
+			    			
+				    		Door rightDoor = myCurrentRoom.getRightDoor();
+				    		Door bottomDoor = myCurrentRoom.getBottomDoor();
+				            
+				    		if (Integer.parseInt(iD) % 2 == 1) {
+				    			
+				    			if (iD.equals(String.valueOf(increment))) {
+				    				
+				    				rightDoor.setPermLocked(false);
+				    				if (!rightDoorAssigned) {
+				    					increment++;
+				    				}
+				    				rightDoorAssigned = true;
+				    				
+				    			}
+				    		}
+				    		 
+				    		if (Integer.parseInt(iD) % 2 == 0) {
+				    			
+				    			if (iD.equals(String.valueOf(increment))) {
+				    				
+				    				bottomDoor.setPermLocked(false);
+				    				if (!bottomDoorAssigned) {
+				    					increment++;
+				    				}
+				    				bottomDoorAssigned = true;
+				    			}
+				    		}
+				    		
+				    		if (rightDoorAssigned && bottomDoorAssigned) {
+				    			break;
+				    		}
+		    			}
+		    			
+		    		} catch ( SQLException e1 ) {
+				        e1.printStackTrace();
+		                System.exit( 0 );
+			        }
+		    	}
+		    }
+		}
+		setDoorSQLToZeros();
+	}
+	
+	void setDoorSQLToZeros() {
+		
+		SQLiteDataSource ds = null;
+		try {
+            ds = new SQLiteDataSource();
+            ds.setUrl("jdbc:sqlite:doors.db");
+        } catch ( Exception e1 ) {
+            e1.printStackTrace();
+            System.exit(0);
+        }
+		
+		try ( Connection conn = ds.getConnection();
+	              Statement stmt = conn.createStatement(); ) {
+	            
+	            String deleteQuery = "delete from doors";
+	            stmt.executeUpdate(deleteQuery);
+	            
+	        } catch ( SQLException e1 ) {
+	            e1.printStackTrace();
+	            System.exit( 0 );
+	        }
+			
+			int increment = 1;
+		    try ( Connection conn = ds.getConnection();
+	            Statement stmt = conn.createStatement(); ) {
+		        for (int i = 0; i < 9; i = i + 2) {
+				    for (int j = 0; j < 9; j = j + 2) {
+				    	if ((i % 2 == 0) && (j % 2 == 0)) {
+				    		
+				    		int rightDoorLocked = 0;
+			
+				    		String query1 = "INSERT INTO doors ( ID, ISLOCKED ) VALUES ('" + increment + "', " + rightDoorLocked + ")";
+				    		stmt.executeUpdate(query1);
+				    		increment++;
+				    		
+				    		int bottomDoorLocked = 0;
+				    		
+				    		String query2 = "INSERT INTO doors ( ID, ISLOCKED ) VALUES ('" + increment + "', " + bottomDoorLocked + ")";
+				    	    stmt.executeUpdate(query2);
+				    	    increment++;
+				    	}
+				    }
+			    }
+	        } catch ( SQLException e1 ) {
+		        e1.printStackTrace();
+	            System.exit( 0 );
+	        }
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
 }
